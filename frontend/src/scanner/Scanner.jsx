@@ -27,15 +27,28 @@ const defaultLocatorSettings = {
     halfSample: true,
 };
 
-const defaultDecoders = ['ean_reader'];
+const defaultDecoders = [
+    'code_128_reader',
+    'ean_reader',
+    'ean_5_reader',
+    'ean_2_reader',
+    'ean_8_reader',
+    'code_39_reader',
+    'code_39_vin_reader',
+    'codabar_reader',
+    'upc_reader',
+    'upc_e_reader',
+    'i2of5_reader',
+    "2of5_reader",
+    'code_93_reader',
+    'code_32_reader',
+];
 
 const Scanner = ({
     onDetected,
     scannerRef,
     onScannerReady,
     cameraId,
-    facingMode,
-    constraints = defaultConstraints,
     locator = defaultLocatorSettings,
     numOfWorkers = navigator.hardwareConcurrency || 0,
     decoders = defaultDecoders,
@@ -56,11 +69,6 @@ const Scanner = ({
         Quagga.init({
             inputStream: {
                 type: 'LiveStream',
-                constraints: {
-                    ...constraints,
-                    ...(cameraId && { deviceId: cameraId }),
-                    ...(!cameraId && { facingMode }),
-                },
                 target: scannerRef.current,
             },
             locator,
@@ -83,7 +91,7 @@ const Scanner = ({
             Quagga.offDetected(errorCheck);
             Quagga.stop();
         };
-    }, [cameraId, onDetected, onScannerReady, scannerRef, errorCheck, constraints, locator, decoders, locate]);
+    }, [cameraId, onDetected, onScannerReady, scannerRef, errorCheck, locator, decoders, locate]);
     return null;
 }
 
@@ -93,7 +101,6 @@ Scanner.propTypes = {
     onScannerReady: PropTypes.func,
     cameraId: PropTypes.string,
     facingMode: PropTypes.string,
-    constraints: PropTypes.object,
     locator: PropTypes.object,
     numOfWorkers: PropTypes.number,
     decoders: PropTypes.array,
