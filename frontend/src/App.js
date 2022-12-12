@@ -1,12 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useRef } from 'react';
 
-function App() {
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import HomeView from './views/HomeView';
+import ScanningView from './views/ScanningView';
+
+const App = () => {
   return (
-    <div className="App">
-      test
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/">
+          <Route index element={<HomeView />} />
+          <Route path="scanner" element={<ScanningView />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
