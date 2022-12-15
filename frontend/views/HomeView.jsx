@@ -1,11 +1,11 @@
 import React from 'react';
+import { StyleSheet, Button, Text, View } from 'react-native';
 
-import { StyleSheet, Text, View } from 'react-native';
-
-export default function HomeView() {
+export default function HomeView({ navigation }) {
     return (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text>Welcome to StockUp</Text>
+            <Button title="scan" onPress={() => navigation.navigate('Scanner')}/>
         </View>
     );
 }
