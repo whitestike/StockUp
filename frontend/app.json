@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "frontend",
+    "slug": "stockup",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "5c572a31-799d-4a87-aa62-67b02805340a"
+      }
+    },
+    "owner": "rickert"
+  }
+}
