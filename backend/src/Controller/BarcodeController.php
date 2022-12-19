@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller; 
 
+header('Access-Control-Allow-Origin: *');
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
