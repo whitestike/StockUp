@@ -14,7 +14,7 @@ class BarcodeController extends AbstractController
         $data = json_decode($request->getContent())->code;
         return new Response(
             ["code" => $data],
-            array_merge($headers, ['Content-Type' => 'application/json;charset=UTF-8'])
+            ['Content-Type' => 'application/json;charset=UTF-8']
         );
     }
 }
