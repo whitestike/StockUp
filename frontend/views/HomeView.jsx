@@ -9,16 +9,16 @@ export default function HomeView({ navigation }) {
             <Text>Welcome to StockUp</Text>
             <Button title="scan" onPress={() => navigation.navigate('Scanner')}/>
             <Button title="test api endpoint" onPress={async () => {
-                axios.post('https://139.144.72.93:8000/barcode', {
-                    code: '981237490',
-                })
-                .then(function (response) {
+                axios({
+                    method: 'post',
+                    headers: { 'Content-Type': 'application/json'},
+                    url: 'http://localhost:8000/barcode',
+                    data: {'code': '38104'},
+                }).then(function (response) {
                     console.log(response);
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });}
-            }/>
+                });
+    
+            }}/>
         </View>
     );
 }
