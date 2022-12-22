@@ -20,10 +20,9 @@ export default function Scanner() {
 
 
   const fetchProductData = async () => {
-    let response = await axios.post('http://10.0.2.2:8000/barcode', { code: '043859582662' })
-    alert(response.data.product.name);
-    setData("test");
     setScanned(true);
+    let response = await axios.post('http://139.144.72.93:8001/barcode', { code: '043859582662' })
+    setData(response.data.product.name);
   };
 
   if (hasPermission === null) {
