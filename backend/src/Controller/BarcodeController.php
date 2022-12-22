@@ -16,7 +16,7 @@ class BarcodeController extends AbstractController
         isset(json_decode($request->getContent())->code) ? $data = ['code' => json_decode($request->getContent())->code] : $data = "no code given";
         return $this->json(
             $data,
-            headers: ['Content-Type' => 'application/json;charset=UTF-8', 'Access-Controle-Allow-Origin' => '*']
+            headers: ['Content-Type' => 'application/json;charset=UTF-8', 'Access-Control-Allow-Origin' => '*']
         );
     }
 }
