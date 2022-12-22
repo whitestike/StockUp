@@ -6,19 +6,24 @@ header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Conte
 header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
 header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
+use App\Entity\Product;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ProductRepository;
 
 class BarcodeController extends AbstractController
 {
-    #[Route('/barcode', methods: ['POST', 'OPTIONS'])]
-    public function number(Request $request): Response
+    #[Route('/barcode', methods: ['POST'])]
+    public function number(Request $request, ProductRepository $productRepo): Response
     {
-        $response = new Response();
         $code = json_decode($request->getContent())->code;
-        $response->setContent(json_encode(['code' => $code]));
+        
+        $product = $productRepo->getByCode($code);
+
+        $response = new Response();
+        $response->setContent(json_encode(['product' => $product]));
     
         $response->headers->set('Content-Type', 'application/json');
         

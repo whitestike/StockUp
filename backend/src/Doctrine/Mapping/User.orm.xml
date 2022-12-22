@@ -1,0 +1,8 @@
+<doctrine-mapping>
+    <entity name="App\Entity\User" table="users" repository-class="App\Repository\UserRepository">
+        <id name="id" type="integer" column="id" />
+        <id name="email" type="string" length="255" column="email" />
+        <id name="roles" type="string" length="255" column="roles" />
+        <id name="password" type="string" length="255" column="password" />
+    </entity>
+</doctrine-mapping>

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
+import axios from 'axios';
+
 export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
@@ -15,9 +17,22 @@ export default function Scanner() {
     getBarCodeScannerPermissions();
   }, []);
 
-  const handleBarCodeScanned = ({ type, data }) => {
+  const FetchProduct = async (data) => {
+    axios({
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json'},
+      url: 'http://127.0.0.1:8000/barcode',
+      data: {code: data}
+    }).then((response) => {
+      return 'test';
+    }).catch((e) => {
+      alert(e);
+    });
+  }
+
+  const handleBarCodeScanned = async ({ data }) => {
     setScanned(true);
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(await FetchProduct(data));
   };
 
   if (hasPermission === null) {

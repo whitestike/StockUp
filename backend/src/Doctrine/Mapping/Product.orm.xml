@@ -1,0 +1,7 @@
+<doctrine-mapping>
+    <entity name="App\Entity\Product" table="products" repository-class="App\Repository\ProductRepository">
+        <id name="id" type="integer" column="id" />
+        <id name="code" type="string" length="255" column="code" />
+        <id name="name" type="string" length="255" column="name" />
+    </entity>
+</doctrine-mapping>

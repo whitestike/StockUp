@@ -12,10 +12,10 @@ export default function HomeView({ navigation }) {
                 axios({
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json'},
-                    url: 'http://139.144.72.93:8000/barcode',
-                    data: {code: "8127093487"}
+                    url: 'http://127.0.0.1:8000/barcode',
+                    data: {code: "043859582662"}
                 }).then((response) => {
-                    console.log(response);
+                    alert(response.data.product.name);
                 })
             }}/>
         </View>
