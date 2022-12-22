@@ -13,7 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class BarcodeController extends AbstractController
 {
-    #[Route('/barcode', methods: ['POST'])]
+    #[Route('/barcode', methods: ['POST', 'OPTIONS'])]
     public function number(Request $request): Response
     {
         $response = new Response();
