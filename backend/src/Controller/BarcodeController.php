@@ -20,6 +20,7 @@ class BarcodeController extends AbstractController
     public function numberOptions(): Response
     {
         $response = new Response();
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
@@ -31,7 +32,7 @@ class BarcodeController extends AbstractController
         $product = $productRepo->getByCode($code);
 
         $response = new Response();
-        $response->setContent(json_encode(['product' => 'test']));
+        $response->setContent(json_encode(['product' => $product]));
     
         $response->headers->set('Content-Type', 'application/json');
         

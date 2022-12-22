@@ -8,7 +8,7 @@ export default function HomeView({ navigation }) {
 
     const fetchProductData = async () => {
         try{
-            let response = await axios.post('http://139.144.72.93:8000/barcode', { code: '043859582662' })
+            let response = await axios.post('http://139.144.72.93:8001/barcode', { code: '043859582662' })
 
             setData(response.data.product.name);
         }catch(e){
