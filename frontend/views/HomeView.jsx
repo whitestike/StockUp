@@ -13,7 +13,7 @@ export default function HomeView({ navigation }) {
                     method: 'post',
                     headers: { 'Content-Type': 'application/json'},
                     url: 'http://139.144.72.93:8000/barcode',
-                    data: {'code': '38104'},
+                    body: {'code': '38104'},
                 }).then(function (response) {
                     console.log(response);
                 });
