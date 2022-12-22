@@ -7,6 +7,7 @@ import axios from 'axios';
 export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [data, setData] = useState('no data');
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -17,22 +18,12 @@ export default function Scanner() {
     getBarCodeScannerPermissions();
   }, []);
 
-  const FetchProduct = async (data) => {
-    axios({
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json'},
-      url: 'http://127.0.0.1:8000/barcode',
-      data: {code: data}
-    }).then((response) => {
-      return 'test';
-    }).catch((e) => {
-      alert(e);
-    });
-  }
 
-  const handleBarCodeScanned = async ({ data }) => {
+  const fetchProductData = async () => {
+    let response = await axios.post('http://10.0.2.2:8000/barcode', { code: '043859582662' })
+    alert(response.data.product.name);
+    setData("test");
     setScanned(true);
-    alert(await FetchProduct(data));
   };
 
   if (hasPermission === null) {
@@ -49,9 +40,10 @@ export default function Scanner() {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff'}}>
         <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            onBarCodeScanned={scanned ? undefined : fetchProductData}
             style={styles.barcodebox}
         />
+        <Text>{data}</Text>
         {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)}/>}
     </View>
   );

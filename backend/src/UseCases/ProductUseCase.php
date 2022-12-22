@@ -12,10 +12,12 @@ class ProductUseCase
 
     }
 
-    public function processBarcode(string $code): Product
+    public function processBarcode(string $code): array
     {
         $product = $this->productRepo->getByCode($code);
 
-        return $product;
+        $returnArray = ["name" => $product->name(), "code" => $product->code()];
+
+        return $returnArray;
     }
 }

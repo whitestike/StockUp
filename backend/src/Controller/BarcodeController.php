@@ -15,6 +15,14 @@ use App\Repository\ProductRepository;
 
 class BarcodeController extends AbstractController
 {
+
+    #[Route('/barcode', methods: ['OPTIONS'])]
+    public function numberOptions(): Response
+    {
+        $response = new Response();
+        return $response;
+    }
+
     #[Route('/barcode', methods: ['POST'])]
     public function number(Request $request, ProductRepository $productRepo): Response
     {
@@ -23,10 +31,9 @@ class BarcodeController extends AbstractController
         $product = $productRepo->getByCode($code);
 
         $response = new Response();
-        $response->setContent(json_encode(['product' => $product]));
+        $response->setContent(json_encode(['product' => 'test']));
     
         $response->headers->set('Content-Type', 'application/json');
-        $response->headers->set('Access-Control-Allow-Origin', '*');
         
         return $response;
     }
