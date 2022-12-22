@@ -10,14 +10,13 @@ export default function HomeView({ navigation }) {
             <Button title="scan" onPress={() => navigation.navigate('Scanner')}/>
             <Button title="test api endpoint" onPress={async () => {
                 axios({
-                    method: 'post',
+                    method: 'POST',
                     headers: { 'Content-Type': 'application/json'},
-                    url: 'http://139.144.72.93:8000/barcode',
-                    body: {'code': '38104'},
-                }).then(function (response) {
+                    url: 'http://127.0.0.1:8000/barcode',
+                    data: {code: "8127093487"}
+                }).then((response) => {
                     console.log(response);
-                });
-    
+                })
             }}/>
         </View>
     );

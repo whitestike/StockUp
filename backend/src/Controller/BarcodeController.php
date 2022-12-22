@@ -2,6 +2,9 @@
 namespace App\Controller; 
 
 header('Access-Control-Allow-Origin: *');
+header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+header("Allow: GET, POST, OPTIONS, PUT, DELETE");
 
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,10 +16,12 @@ class BarcodeController extends AbstractController
     #[Route('/barcode', methods: ['POST'])]
     public function number(Request $request): Response
     {
-        isset(json_decode($request->getContent())->code) ? $data = ['code' => json_decode($request->getContent())->code] : $data = "no code given";
-        return $this->json(
-            $data,
-            headers: ['Content-Type' => 'application/json;charset=UTF-8']
-        );
+        $response = new Response();
+        $code = json_decode($request->getContent())->code;
+        $response->setContent(json_encode(['code' => $code]));
+    
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
     }
 }
