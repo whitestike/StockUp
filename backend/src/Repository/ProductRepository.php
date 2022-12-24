@@ -17,7 +17,14 @@ class ProductRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
 
-        $returnArray = ["name" => $product->name(), "code" => $product->code()];
+        if($product == null)
+        {
+            $returnArray = ["name" => 'no product linked to code', "code" => $code];
+        }else
+        {
+            $returnArray = ["name" => $product->name(), "code" => $product->code()];
+        }
+
 
         return $returnArray;
     }
