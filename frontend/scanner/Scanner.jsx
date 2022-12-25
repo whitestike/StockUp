@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button } from 'react-native';
+import { Text, View, StyleSheet, Button, AsyncStorage } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import axios from 'axios';
@@ -28,10 +28,8 @@ export default function Scanner() {
     let response = await axios.post('http://139.144.72.93:8000/api/barcode', { code: data.data }, {
       headers: {
         'Authorization': 'Bearer ' + token,
-        'Content-Type': 'application/json',
       }
     })
-    alert(response.data.product.name);
     setData(response.data.product.name);
   };
 
