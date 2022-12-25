@@ -8,6 +8,7 @@ export default function Scanner() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [data, setData] = useState('no data');
+  const [token, setToken] = useState('');
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -21,7 +22,16 @@ export default function Scanner() {
 
   const fetchProductData = async (data) => {
     setScanned(true);
-    let response = await axios.post('http://139.144.72.93:8000/barcode', { code: data.data })
+    AsyncStorage.getItem('token').then((value) => {
+      setToken(value);
+    });
+    let response = await axios.post('http://139.144.72.93:8000/api/barcode', { code: data.data }, {
+      headers: {
+        'Authorization': 'Bearer ' + token,
+        'Content-Type': 'application/json',
+      }
+    })
+    alert(response.data.product.name);
     setData(response.data.product.name);
   };
 
