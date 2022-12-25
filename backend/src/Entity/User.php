@@ -13,7 +13,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private function __construct(
         private ?int $id = null,
         private ?string $email = null,
-        private array $roles = [],
+        private ?array $roles = [],
         private ?string $password = null,
     ) {
 
@@ -53,9 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        $roles[] = ['ROLE_USER'];
 
-        return array_unique($roles);
+        return ['ROLE_USER'];
     }
 
     public function setRoles(array $roles): self

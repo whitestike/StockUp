@@ -16,7 +16,7 @@ use App\Repository\ProductRepository;
 class BarcodeController extends AbstractController
 {
 
-    #[Route('/barcode', methods: ['OPTIONS'])]
+    #[Route('/api/barcode', methods: ['OPTIONS'])]
     public function numberOptions(): Response
     {
         $response = new Response();
@@ -24,7 +24,7 @@ class BarcodeController extends AbstractController
         return $response;
     }
 
-    #[Route('/barcode', methods: ['POST'])]
+    #[Route('/api/barcode', methods: ['POST'])]
     public function number(Request $request, ProductRepository $productRepo): Response
     {
         $code = json_decode($request->getContent())->code;
