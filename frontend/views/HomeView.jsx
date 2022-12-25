@@ -1,13 +1,31 @@
-import React, { useState } from 'react';
-import { Button, Text, View, SafeAreaView } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Button, Text, View, SafeAreaView, AsyncStorage } from 'react-native';
 
 export default function HomeView({ navigation }) {
+    const [token, setToken] = useState('');
 
-    return (
-        <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text>Welcome to StockUp</Text>
-            <Button title="scan" onPress={() => navigation.navigate('Scanner')}/>
-            <Button title="login" onPress={() => navigation.navigate('Login')}/>
-        </View>
-    );
+    useEffect(() => {
+        async function getToken(){
+            AsyncStorage.getItem('token').then((value) => {
+                setToken(value);
+            });
+        }
+
+        getToken();
+    }, []);
+
+
+    if(token != null){
+        return (
+            <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                <Text>Welcome to StockUp</Text>
+                <Button title="Go to scanner" onPress={() => navigation.navigate('Scanner')}/>
+                <Button title="Logout" onPress={() => {
+                    AsyncStorage.removeItem('token')
+                    navigation.navigate('NotLoggedIn');
+                }}/>
+            </SafeAreaView>
+        );
+    }
+    navigation.navigate('NotLoggedIn');
 }
