@@ -2,8 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\ORM\PersistentCollection;
+
 class Product
 {
+    private PersistentCollection $userHasProduct;
+
     private function __construct(
         private int $id,
         private string $code,

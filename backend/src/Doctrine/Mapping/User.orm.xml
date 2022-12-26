@@ -1,8 +1,13 @@
 <doctrine-mapping>
     <entity name="App\Entity\User" table="users" repository-class="App\Repository\UserRepository">
-        <id name="id" type="integer" column="user_id"/>
+        <id name="id" type="integer" column="id"/>
         <field name="email" type="string" length="255" column="email" />
         <field name="roles" type="json" column="user_roles"/>
         <field name="password" type="string" length="255" column="password" />
+        <one-to-many field="userHasProduct" target-entity="UserHasProduct" mapped-by="users">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

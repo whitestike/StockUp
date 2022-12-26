@@ -1,7 +1,12 @@
 <doctrine-mapping>
     <entity name="App\Entity\Product" table="products" repository-class="App\Repository\ProductRepository">
         <id name="id" type="integer" column="id" />
-        <id name="code" type="string" length="255" column="code" />
-        <id name="name" type="string" length="255" column="name" />
+        <field name="code" type="string" length="255" column="code" />
+        <field name="name" type="string" length="255" column="name" />
+        <one-to-many field="userHasProduct" target-entity="UserHasProduct" mapped-by="products">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
     </entity>
 </doctrine-mapping>

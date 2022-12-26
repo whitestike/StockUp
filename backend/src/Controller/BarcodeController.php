@@ -1,5 +1,5 @@
 <?php
-namespace App\Controller; 
+namespace App\Controller;
 
 header('Access-Control-Allow-Origin: *');
 header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
@@ -17,7 +17,7 @@ class BarcodeController extends AbstractController
 {
 
     #[Route('/api/barcode', methods: ['OPTIONS'])]
-    public function numberOptions(): Response
+    public function barcodeOptions(): Response
     {
         $response = new Response();
         $response->headers->set('Content-Type', 'application/json');
@@ -25,7 +25,7 @@ class BarcodeController extends AbstractController
     }
 
     #[Route('/api/barcode', methods: ['POST'])]
-    public function number(Request $request, ProductRepository $productRepo): Response
+    public function barcode(Request $request, ProductRepository $productRepo): Response
     {
         $code = json_decode($request->getContent())->code;
         
