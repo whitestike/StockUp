@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, AsyncStorage } from 'react-native';
+import { Text, View, StyleSheet, Button, AsyncStorage, Pressable} from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+
+import ScanCard from '../Components/ScanCard';
 
 import axios from 'axios';
 
@@ -21,7 +23,6 @@ export default function Scanner() {
 
 
   const fetchProductData = async (data) => {
-    setScanned(true);
     AsyncStorage.getItem('token').then((value) => {
       setToken(value);
     });
@@ -30,7 +31,19 @@ export default function Scanner() {
         'Authorization': 'Bearer ' + token,
       }
     })
-    setData(response.data.product.name);
+    if(response.data.product.name == 'no data')
+    {
+      setScanned(false);
+    }else if(response.data.product.name == 'no product linked to code')
+    {
+      setScanned(true);
+      setData(response.data.product.name);
+    }
+    else
+    {
+      setScanned(true);
+      setData(response.data.product.name);
+    }
   };
 
   if (hasPermission === null) {
@@ -50,25 +63,46 @@ export default function Scanner() {
             onBarCodeScanned={scanned ? undefined : fetchProductData}
             style={styles.barcodebox}
         />
-        <Text>{data}</Text>
-        {scanned && <Button title={'Tap to Scan Again'} onPress={() => setScanned(false)}/>}
+        {scanned && <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', position: 'relative'}}>
+          <ScanCard productName={data}/>
+          <View style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
+            <Pressable style={styles.button} onPress={() => setScanned(false)}>
+              <Text style={styles.text}>Add to your inventory</Text>
+            </Pressable>    
+            <Pressable style={styles.button} onPress={() => setScanned(false)}>
+              <Text style={styles.text}>Scan again</Text>
+            </Pressable>
+          </View>
+        </View>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-
-    barcodebox: {
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-        flex: 2,
-        width: 400,
-        overflow: 'hidden',
-        borderRadius: 30,
-    },
+  button: {
+    margin: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'black',
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'white',
+  },
+  barcodebox: {
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flex: 2,
+      width: 400,
+      overflow: 'hidden',
+      borderRadius: 30,
+  },
 });
