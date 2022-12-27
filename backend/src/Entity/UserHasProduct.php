@@ -50,6 +50,6 @@ class UserHasProduct
 
     public static function create(User $user, Product $product): self
     {
-        return new self(uniqid(), $user, $product);
+        return new self(uniqid(), $user, $product, 1);
     }
 }
