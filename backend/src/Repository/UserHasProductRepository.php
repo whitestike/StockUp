@@ -20,4 +20,24 @@ class UserHasProductRepository extends ServiceEntityRepository
         $products = $entityManager->getRepository(UserHasProduct::class)->findBy(['user' => $userId]);
         return $products;
     }
+
+    public function addProductToInventory(string $code,int $userId): void 
+    {
+        $entityManager = $this->getEntityManager();
+        $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
+        $user = $entityManager->getRepository(User::class)->find($userId);
+        $userHasProduct = UserHasProduct::create($user, $product);
+        $entityManager->persist($userHasProduct);
+        $entityManager->flush();
+    }
+
+    public function removeProductFromInventory(string $code,int $userId): void 
+    {
+        $entityManager = $this->getEntityManager();
+        $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
+        $user = $entityManager->getRepository(User::class)->find($userId);
+        $userHasProduct = $entityManager->getRepository(UserHasProduct::class)->findOneBy(['user' => $user, 'product' => $product]);
+        $entityManager->remove($userHasProduct);
+        $entityManager->flush();
+    }
 }

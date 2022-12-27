@@ -4,7 +4,7 @@ namespace App\Entity;
 class UserHasProduct
 {
     private function __construct(
-        private int $id,
+        private string $id,
         private User $user,
         private Product $product,
     ) {
@@ -22,6 +22,6 @@ class UserHasProduct
 
     public static function create(User $user, Product $product): self
     {
-        return new self($user, $product);
+        return new self(uniqid(), $user, $product);
     }
 }

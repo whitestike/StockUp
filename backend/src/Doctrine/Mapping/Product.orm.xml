@@ -1,6 +1,6 @@
 <doctrine-mapping>
     <entity name="App\Entity\Product" table="products" repository-class="App\Repository\ProductRepository">
-        <id name="id" type="integer" column="id" />
+        <id name="id" type="string" length="255" column="id"/>
         <field name="code" type="string" length="255" column="code" />
         <field name="name" type="string" length="255" column="name" />
         <one-to-many field="userHasProduct" target-entity="UserHasProduct" mapped-by="products">

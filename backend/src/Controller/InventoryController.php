@@ -16,22 +16,39 @@ use App\Repository\UserHasProductRepository;
 
 class InventoryController extends AbstractController
 {
-    #[Route('/api/inventory/Add', methods: ['POST'])]
-    public function addToInventory(Request $request, ProductRepository $productRepo): Response
+    #[Route('/api/inventory/add', methods: ['POST'])]
+    public function addToInventory(Request $request, UserHasProductRepository $userHasProductRepo): Response
     {
-        $code = json_decode($request->getContent())->code;
+        $content = json_decode($request->getContent());
+        $userId = $content->userId;
+        $code = $content->code;
         
-        $product = $productRepo->getByCode($code);
+        $userHasProductRepo->addProductToInventory($code, $userId);
 
         $response = new Response();
-        $response->setContent(json_encode(['product' => $product]));
     
         $response->headers->set('Content-Type', 'application/json');
         
         return $response;
     }
 
-    #[Route('/api/inventory/select', methods: ['POST'])]
+    #[Route('/api/inventory/remove', methods: ['POST'])]
+    public function removeFromInventory(Request $request, UserHasProductRepository $userHasProductRepo): Response
+    {
+        $content = json_decode($request->getContent());
+        $userId = $content->userId;
+        $code = $content->code;
+        
+        $userHasProductRepo->removeProductFromInventory($code, $userId);
+
+        $response = new Response();
+    
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
+    }
+
+    #[Route('/api/inventory/get', methods: ['POST'])]
     public function fetchInventory(Request $request, UserHasProductRepository $userHasProductRepo): Response
     {
         $userId = json_decode($request->getContent())->userId;
