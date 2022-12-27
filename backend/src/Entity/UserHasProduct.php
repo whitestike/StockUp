@@ -7,6 +7,7 @@ class UserHasProduct
         private string $id,
         private User $user,
         private Product $product,
+        private int $count,
     ) {
 
     }
@@ -15,9 +16,36 @@ class UserHasProduct
     {
         return $this->user;
     }
+
     public function product(): Product
     {
         return $this->product;
+    }
+
+    public function count(): int
+    {
+        return $this->count;
+    }
+
+    public function addToCount(int $amount): void
+    {
+        $this->count += $amount;
+    }
+
+    public function subtractFromCount(int $amount): void
+    {
+        if($this->count > 0){
+            $this->count -= $amount;
+        }
+    }
+
+    public function toArray(): array
+    {
+        return array(
+            'id' => $this->id,
+            'product' => ['name' => $this->product->name(), 'code' => $this->product->code()],
+            'count' => $this->count
+        );
     }
 
     public static function create(User $user, Product $product): self

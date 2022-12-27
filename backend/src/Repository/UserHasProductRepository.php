@@ -18,7 +18,13 @@ class UserHasProductRepository extends ServiceEntityRepository
     {
         $entityManager = $this->getEntityManager();
         $products = $entityManager->getRepository(UserHasProduct::class)->findBy(['user' => $userId]);
-        return $products;
+
+        $productsFromUser = [];
+        foreach($products as $product){
+            array_push($productsFromUser, $product->toArray());
+        }
+
+        return $productsFromUser;
     }
 
     public function addProductToInventory(string $code,int $userId): void 
@@ -26,8 +32,17 @@ class UserHasProductRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
         $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
         $user = $entityManager->getRepository(User::class)->find($userId);
-        $userHasProduct = UserHasProduct::create($user, $product);
-        $entityManager->persist($userHasProduct);
+
+        $userHasProduct = $entityManager->getRepository(UserHasProduct::class)->findOneBy(['user' => $user, 'product' => $product]);
+
+        if($userHasProduct == null)
+        {
+            $userHasProduct = UserHasProduct::create($user, $product);
+            $entityManager->persist($userHasProduct);
+        }else{
+            $userHasProduct->addToCount(1);
+        }
+
         $entityManager->flush();
     }
 
@@ -37,7 +52,8 @@ class UserHasProductRepository extends ServiceEntityRepository
         $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
         $user = $entityManager->getRepository(User::class)->find($userId);
         $userHasProduct = $entityManager->getRepository(UserHasProduct::class)->findOneBy(['user' => $user, 'product' => $product]);
-        $entityManager->remove($userHasProduct);
+        $userHasProduct->subtractFromCount(1);
+        $entityManager->persist($userHasProduct);
         $entityManager->flush();
     }
 }

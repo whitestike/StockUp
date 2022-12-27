@@ -55,21 +55,8 @@ class InventoryController extends AbstractController
         
         $products = $userHasProductRepo->getProductFromUser($userId);
 
-        $productsFromUser = array();
-        foreach($products as $product)
-        {
-            if(!array_key_exists($product->product()->name(), $productsFromUser))
-            {
-                $productsFromUser = array_merge($productsFromUser, array($product->product()->name() => 1));
-            }
-            else
-            {
-                $productsFromUser[$product->product()->name()]++;
-            }
-        }
-
         $response = new Response();
-        $response->setContent(json_encode(['products' => $productsFromUser]));
+        $response->setContent(json_encode(['products' => $products]));
     
         $response->headers->set('Content-Type', 'application/json');
         
