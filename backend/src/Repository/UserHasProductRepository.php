@@ -14,10 +14,11 @@ class UserHasProductRepository extends ServiceEntityRepository
         parent::__construct($registry, UserHasProduct::class);
     }
 
-    public function getProductFromUser(int $userId): array 
+    public function getProductFromUser(string $userEmail): array 
     {
         $entityManager = $this->getEntityManager();
-        $products = $entityManager->getRepository(UserHasProduct::class)->findBy(['user' => $userId]);
+        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $userEmail]);
+        $products = $entityManager->getRepository(UserHasProduct::class)->findBy(['user' => $user]);
 
         $productsFromUser = [];
         foreach($products as $product){

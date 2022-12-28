@@ -51,9 +51,9 @@ class InventoryController extends AbstractController
     #[Route('/api/inventory/get', methods: ['POST'])]
     public function fetchInventory(Request $request, UserHasProductRepository $userHasProductRepo): Response
     {
-        $userId = json_decode($request->getContent())->userId;
+        $userEmail = json_decode($request->getContent())->email;
         
-        $products = $userHasProductRepo->getProductFromUser($userId);
+        $products = $userHasProductRepo->getProductFromUser($userEmail);
 
         $response = new Response();
         $response->setContent(json_encode(['products' => $products]));
