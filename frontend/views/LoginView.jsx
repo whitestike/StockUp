@@ -28,6 +28,8 @@ export default function LoginView({ navigation }) {
                     }
                 });
                 try {
+                    await AsyncStorage.setItem( '@email', email);
+                    await AsyncStorage.setItem( '@password', password);
                     await AsyncStorage.setItem( '@token', response.data.token);
                 } catch (e) {
                     alert(e);   

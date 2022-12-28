@@ -21,9 +21,22 @@ export default function HomeView({ navigation }) {
 
     useEffect(() => {
         async function getToken(){
-            const token = await AsyncStorage.getItem('@token')
-            setToken(token);
+    
+          const email = await AsyncStorage.getItem( '@email' );
+          const password = await AsyncStorage.getItem( '@password' );
+          if(email == null || password == null)
+          {
+            navigation.navigate('Login');
+          }
+    
+          let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  
+            {headers: {
+              'content-type': 'application/json'
+            }
+          });
+          setToken(response.data.token);
         }
+
         getProducts();
         getToken();
     }, []);
@@ -47,5 +60,4 @@ export default function HomeView({ navigation }) {
             </SafeAreaView>
         );
     }
-    navigation.navigate('Login');
 }
