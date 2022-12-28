@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Text, View, SafeAreaView, AsyncStorage } from 'react-native';
+import { Button, Text, View, SafeAreaView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ScanCard(props) {
     return(

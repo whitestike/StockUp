@@ -1,28 +1,16 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Pressable, Text, AsyncStorage} from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
-
-import HeaderButton from './Components/HeaderButton';
 
 import Scanner from './scanner/Scanner';
 import HomeView from './views/HomeView';
 import LoginView from './views/LoginView';
 import NotLoggedIn from './views/NotLoggedInView';
 
-export default function App({navigation}) {
-
-  useEffect(() => {
-    async function getToken(){
-      AsyncStorage.getItem('token').then((value) => {
-          setToken(value);
-      });
-    }
-
-    getToken();
-  }, []);
+export default function App() {
 
   return (
     <NavigationContainer style={styles.container}>

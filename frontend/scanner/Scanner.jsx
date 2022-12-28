@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, AsyncStorage, Pressable} from 'react-native';
+import { Text, View, StyleSheet, Button, Pressable} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import ScanCard from '../Components/ScanCard';
 
 import axios from 'axios';
 
-export default function Scanner() {
+export default function Scanner({ navigation }) {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
-  const [data, setData] = useState('no data');
+  const [code, setCode] = useState('no data');
+  const [product, setProduct] = useState('no data');
   const [token, setToken] = useState('');
 
   useEffect(() => {
@@ -18,14 +20,33 @@ export default function Scanner() {
       setHasPermission(status === 'granted');
     };
 
+    async function getToken(){
+      const token = await AsyncStorage.getItem('@token');
+      setToken(token);
+    }
+
+    getToken();
     getBarCodeScannerPermissions();
   }, []);
 
+  const handleAddProduct = async () => {
+    let response = await axios.post('http://139.144.72.93:8000/api/inventory/add', { userId: 1,code: code }, {
+      headers: {
+        'Authorization': 'Bearer ' + token,
+      }
+    })
+
+    if(response.status !== 200){
+      alert(response.status);
+    }
+    else
+    {
+      alert("Product has been added to your inventory");
+      setScanned(false);
+    }
+  }
 
   const fetchProductData = async (data) => {
-    AsyncStorage.getItem('token').then((value) => {
-      setToken(value);
-    });
     let response = await axios.post('http://139.144.72.93:8000/api/barcode', { code: data.data }, {
       headers: {
         'Authorization': 'Bearer ' + token,
@@ -37,12 +58,14 @@ export default function Scanner() {
     }else if(response.data.product.name == 'no product linked to code')
     {
       setScanned(true);
-      setData(response.data.product.name);
+      setCode(response.data.product.code);
+      setProduct(response.data.product.name);
     }
     else
     {
       setScanned(true);
-      setData(response.data.product.name);
+      setCode(response.data.product.code);
+      setProduct(response.data.product.name);
     }
   };
 
@@ -64,9 +87,9 @@ export default function Scanner() {
             style={styles.barcodebox}
         />
         {scanned && <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', position: 'relative'}}>
-          <ScanCard productName={data}/>
+          <ScanCard productName={product}/>
           <View style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
-            <Pressable style={styles.button} onPress={() => setScanned(false)}>
+            <Pressable style={styles.button} onPress={handleAddProduct}>
               <Text style={styles.text}>Add to your inventory</Text>
             </Pressable>    
             <Pressable style={styles.button} onPress={() => setScanned(false)}>

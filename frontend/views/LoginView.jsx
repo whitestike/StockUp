@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
-import { SafeAreaView, Button, TextInput, AsyncStorage } from 'react-native';
+import { SafeAreaView, Button, TextInput } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios';
 
@@ -26,7 +27,12 @@ export default function LoginView({ navigation }) {
                         'content-type': 'application/json'
                     }
                 });
-                await AsyncStorage.setItem( 'token', response.data.token);
+                try {
+                    await AsyncStorage.setItem( '@token', response.data.token);
+                } catch (e) {
+                    alert(e);   
+                }
+
                 navigation.navigate('Home');
             }}/>
         </SafeAreaView>

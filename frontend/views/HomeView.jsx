@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Text, View, SafeAreaView, AsyncStorage } from 'react-native';
+import { Button, Text, View, SafeAreaView } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function HomeView({ navigation }) {
     const [token, setToken] = useState('');
 
     useEffect(() => {
         async function getToken(){
-            AsyncStorage.getItem('token').then((value) => {
-                setToken(value);
-            });
+            const token = await AsyncStorage.getItem('@token')
+            setToken(token);
         }
 
         getToken();
@@ -27,5 +27,5 @@ export default function HomeView({ navigation }) {
             </SafeAreaView>
         );
     }
-    navigation.navigate('NotLoggedIn');
+    navigation.navigate('Login');
 }
