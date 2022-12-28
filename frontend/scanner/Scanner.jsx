@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, View, StyleSheet, Button, Pressable} from 'react-native';
+import { Text, SafeAreaView, StyleSheet, Button, Pressable} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
@@ -13,6 +13,7 @@ export default function Scanner({ navigation }) {
   const [code, setCode] = useState('no data');
   const [product, setProduct] = useState('no data');
   const [token, setToken] = useState('');
+  const [modalVisable, setModalVisable] = useState(false);
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -41,8 +42,8 @@ export default function Scanner({ navigation }) {
     }
     else
     {
-      alert("Product has been added to your inventory");
       setScanned(false);
+      setModalVisable(true);
     }
   }
 
@@ -74,30 +75,36 @@ export default function Scanner({ navigation }) {
   }
   if (hasPermission === false) {
     return (
-        <View>
+        <SafeAreaView>
             <Text>No access to camera</Text>
-        </View>
+        </SafeAreaView>
     );
   }
 
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff'}}>
-        <BarCodeScanner
+    <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff'}}>
+        {(!modalVisable && !scanned) && <BarCodeScanner
             onBarCodeScanned={scanned ? undefined : fetchProductData}
             style={styles.barcodebox}
-        />
-        {scanned && <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff', position: 'relative'}}>
+        />}
+        {modalVisable && <SafeAreaView style={styles.modalView}>
+          <Text>Product has been added to your inventory</Text>
+          <Pressable style={styles.button} onPress={() => setModalVisable(false)}>
+            <Text style={styles.text}>OK</Text>
+          </Pressable> 
+        </SafeAreaView>}
+        {scanned && <SafeAreaView style={styles.modalView}>
           <ScanCard productName={product}/>
-          <View style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
+          <SafeAreaView style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
             <Pressable style={styles.button} onPress={handleAddProduct}>
               <Text style={styles.text}>Add to your inventory</Text>
             </Pressable>    
             <Pressable style={styles.button} onPress={() => setScanned(false)}>
               <Text style={styles.text}>Scan again</Text>
             </Pressable>
-          </View>
-        </View>}
-    </View>
+          </SafeAreaView>
+        </SafeAreaView>}
+    </SafeAreaView>
   );
 }
 
@@ -118,6 +125,21 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     letterSpacing: 0.25,
     color: 'white',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5
   },
   barcodebox: {
       backgroundColor: '#fff',
