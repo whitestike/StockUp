@@ -9,7 +9,7 @@ class Product
     private PersistentCollection $userHasProduct;
 
     private function __construct(
-        private int $id,
+        private string $id,
         private string $code,
         private string $name,
     ) {
@@ -31,9 +31,14 @@ class Product
         return $this->name;
     }
 
-    public static function create(int $id ,string $code ,string $name): self
+    public function updateName(string $name): void
     {
-        return new self($id, $code, $name);
+        $this->name = $name;
+    }
+
+    public static function create(string $code ,string $name): self
+    {
+        return new self(uniqid(), $code, $name);
     }
 
 }

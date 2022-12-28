@@ -28,4 +28,22 @@ class ProductRepository extends ServiceEntityRepository
 
         return $returnArray;
     }
+
+    public function createOrUpdate(string $code, string $name): void
+    {
+        $entityManager = $this->getEntityManager();
+
+        $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
+
+        if($product == null)
+        {
+            $product = Product::create($code, $name);
+        }
+        else{
+            $product->updateName($name);
+        }
+        
+        $entityManager->persist($product);
+        $entityManager->flush();
+    }
 }
