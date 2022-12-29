@@ -22,7 +22,9 @@ class UserHasProductRepository extends ServiceEntityRepository
 
         $productsFromUser = [];
         foreach($products as $product){
-            array_push($productsFromUser, $product->toArray());
+            if($product->count() > 0){
+                array_push($productsFromUser, $product->toArray());
+            }
         }
 
         return $productsFromUser;
