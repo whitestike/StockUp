@@ -28,11 +28,11 @@ class UserHasProductRepository extends ServiceEntityRepository
         return $productsFromUser;
     }
 
-    public function addProductToInventory(string $code,int $userId): void 
+    public function addProductToInventory(string $code, string $userEmail): void 
     {
         $entityManager = $this->getEntityManager();
         $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
-        $user = $entityManager->getRepository(User::class)->find($userId);
+        $user = $entityManager->getRepository(User::class)->findOneBy(["email" => $userEmail]);
 
         $userHasProduct = $entityManager->getRepository(UserHasProduct::class)->findOneBy(['user' => $user, 'product' => $product]);
 
@@ -47,11 +47,11 @@ class UserHasProductRepository extends ServiceEntityRepository
         $entityManager->flush();
     }
 
-    public function removeProductFromInventory(string $code,int $userId): void 
+    public function removeProductFromInventory(string $code, string $userEmail): void 
     {
         $entityManager = $this->getEntityManager();
         $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
-        $user = $entityManager->getRepository(User::class)->find($userId);
+        $user = $entityManager->getRepository(User::class)->findOneBy(["email" => $userEmail]);
         $userHasProduct = $entityManager->getRepository(UserHasProduct::class)->findOneBy(['user' => $user, 'product' => $product]);
         $userHasProduct->subtractFromCount(1);
         $entityManager->persist($userHasProduct);

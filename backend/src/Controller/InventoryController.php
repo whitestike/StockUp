@@ -20,10 +20,10 @@ class InventoryController extends AbstractController
     public function addToInventory(Request $request, UserHasProductRepository $userHasProductRepo): Response
     {
         $content = json_decode($request->getContent());
-        $userId = $content->userId;
+        $email = $content->email;
         $code = $content->code;
         
-        $userHasProductRepo->addProductToInventory($code, $userId);
+        $userHasProductRepo->addProductToInventory($code, $email);
 
         $response = new Response();
     
@@ -36,10 +36,10 @@ class InventoryController extends AbstractController
     public function removeFromInventory(Request $request, UserHasProductRepository $userHasProductRepo): Response
     {
         $content = json_decode($request->getContent());
-        $userId = $content->userId;
+        $userId = $content->email;
         $code = $content->code;
         
-        $userHasProductRepo->removeProductFromInventory($code, $userId);
+        $userHasProductRepo->removeProductFromInventory($code, $email);
 
         $response = new Response();
     
