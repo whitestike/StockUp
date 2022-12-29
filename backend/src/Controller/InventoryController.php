@@ -36,7 +36,7 @@ class InventoryController extends AbstractController
     public function removeFromInventory(Request $request, UserHasProductRepository $userHasProductRepo): Response
     {
         $content = json_decode($request->getContent());
-        $userId = $content->email;
+        $email = $content->email;
         $code = $content->code;
         
         $userHasProductRepo->removeProductFromInventory($code, $email);

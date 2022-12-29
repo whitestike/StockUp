@@ -59,9 +59,11 @@ export default function HomeView({ navigation }) {
                             <Text style={{fontSize:15,padding: 10, width: "60%", color: 'white'}}>{product.product.name}</Text>
                             <Text style={{fontSize:15,padding: 10, color: 'white'}}>{product.count}</Text>
                             <Pressable onPress={async () => {
-                                let response = await axios.post('http://139.144.72.93:8000/api/inventory/remove', { email: email, password: password },  
+                                const email = await AsyncStorage.getItem('@email');
+                                const token = await AsyncStorage.getItem('@token');
+                                await axios.post('http://139.144.72.93:8000/api/inventory/remove', { email: email, code: product.product.code },  
                                     {headers: {
-                                        'content-type': 'application/json'
+                                        'Authorization': 'Bearer ' + token,
                                     }
                                 });
                             }}><Text style={{fontSize: 15, color: "white", width: 10}}>X</Text></Pressable>

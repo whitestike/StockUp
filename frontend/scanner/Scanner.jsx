@@ -31,7 +31,8 @@ export default function Scanner({ navigation }) {
   }, []);
 
   const handleAddProduct = async () => {
-    let response = await axios.post('http://139.144.72.93:8000/api/inventory/add', { userId: 1,code: code }, {
+    const email = await AsyncStorage.getItem('@email');
+    let response = await axios.post('http://139.144.72.93:8000/api/inventory/add', { email: email ,code: code }, {
       headers: {
         'Authorization': 'Bearer ' + token,
       }
