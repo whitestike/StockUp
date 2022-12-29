@@ -48,7 +48,7 @@ export default function HomeView({ navigation }) {
         <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
             <Text style={{fontSize:24}}>Welcome to StockUp</Text>
             <View>
-                <View style={{width: "100%", borderBottomWidth: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
+                <View style={{width: "100%", flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
                     <Text style={{fontSize:15, padding: 10, width: "55%", color: 'black'}}>Product Name</Text>
                     <Text style={{fontSize:15, width: "25%", color: 'black'}}>Amount</Text>
                     <Text style={{fontSize:15, width: "20%", color: 'black'}}>Remove</Text>
@@ -58,7 +58,7 @@ export default function HomeView({ navigation }) {
                         <View key={product.id} style={{width: "100%", backgroundColor: 'black', borderBottomWidth: 1 , borderColor:'white',flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
                             <Text style={{fontSize:15,padding: 10, width: "60%", color: 'white'}}>{product.product.name}</Text>
                             <Text style={{fontSize:15,padding: 10, color: 'white'}}>{product.count}</Text>
-                            <Pressable onPress={async () => {
+                            <Pressable style={{backgroundColor:'red', width: 35, height: 40, alignItems: "center", justifyContent: 'center'}} onPress={async () => {
                                 const email = await AsyncStorage.getItem('@email');
                                 const token = await AsyncStorage.getItem('@token');
                                 await axios.post('http://139.144.72.93:8000/api/inventory/remove', { email: email, code: product.product.code },  
@@ -66,6 +66,8 @@ export default function HomeView({ navigation }) {
                                         'Authorization': 'Bearer ' + token,
                                     }
                                 });
+
+                                getProducts();
                             }}><Text style={{fontSize: 15, color: "white", width: 10}}>X</Text></Pressable>
                         </View>
                     );
