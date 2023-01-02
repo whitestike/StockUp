@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, SafeAreaView, StyleSheet, Button, Pressable} from 'react-native';
+import { Text, SafeAreaView, StyleSheet, TextInput, Pressable} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
@@ -14,6 +14,7 @@ export default function Scanner({ navigation }) {
   const [product, setProduct] = useState('no data');
   const [token, setToken] = useState('');
   const [modalVisable, setModalVisable] = useState(false);
+  const [createProductVisable, setCreateProductVisable] = useState(false);
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -48,6 +49,17 @@ export default function Scanner({ navigation }) {
     }
   }
 
+  const handleCreateProduct = async () => {
+    let response = await axios.post('http://139.144.72.93:8000/api/product/add', { name: product ,code: code }, {
+      headers: {
+        'Authorization': 'Bearer ' + token,
+      }
+    })
+    setCreateProductVisable(false);
+    setScanned(true);
+    handleAddProduct();
+  }
+
   const fetchProductData = async (data) => {
     let response = await axios.post('http://139.144.72.93:8000/api/barcode', { code: data.data }, {
       headers: {
@@ -59,9 +71,8 @@ export default function Scanner({ navigation }) {
       setScanned(false);
     }else if(response.data.product.name == 'no product linked to code')
     {
-      setScanned(true);
       setCode(response.data.product.code);
-      setProduct(response.data.product.name);
+      setCreateProductVisable(true);
     }
     else
     {
@@ -84,16 +95,18 @@ export default function Scanner({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff'}}>
-        {(!modalVisable && !scanned) && <BarCodeScanner
+        {(!createProductVisable && !modalVisable && !scanned) && <BarCodeScanner
             onBarCodeScanned={scanned ? undefined : fetchProductData}
             style={styles.barcodebox}
         />}
+
         {modalVisable && <SafeAreaView style={styles.modalView}>
           <Text>Product has been added to your inventory</Text>
           <Pressable style={styles.button} onPress={() => setModalVisable(false)}>
             <Text style={styles.text}>OK</Text>
           </Pressable> 
         </SafeAreaView>}
+
         {scanned && <SafeAreaView style={styles.modalView}>
           <ScanCard productName={product}/>
           <SafeAreaView style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
@@ -105,11 +118,24 @@ export default function Scanner({ navigation }) {
             </Pressable>
           </SafeAreaView>
         </SafeAreaView>}
+
+        {createProductVisable && <SafeAreaView style={styles.modalView}>
+          <TextInput style={styles.input} onChangeText={productName => setProduct(productName)}/>
+          <Pressable style={styles.button} onPress={handleCreateProduct}>
+            <Text style={styles.text}>Create Product</Text>
+          </Pressable>
+        </SafeAreaView>}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  input: {
+    width: 200,
+    margin: 12,
+    borderBottomWidth: 1,
+    padding: 7,
+  },
   button: {
     margin: 5,
     alignItems: 'center',
