@@ -13,10 +13,10 @@ export default function App() {
 
   return (
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator initialRouteName="Home">
+      <Stack.Navigator>
         <Stack.Screen options={{title: 'StockUp'}} name="Home" component={HomeView} />
         <Stack.Screen options={{title: 'StockUp'}} name="Scanner" component={Scanner} />
-        <Stack.Screen options={{title: 'StockUp'}} name="Login" component={LoginView} />
+        <Stack.Screen options={{headerShown: false}} name="Login" component={LoginView} />
       </Stack.Navigator>
     </NavigationContainer>
   );

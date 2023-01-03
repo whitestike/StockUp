@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import { SafeAreaView, Button, TextInput, Text, Pressable, View, StyleSheet } from 'react-native';
+import React, {useEffect, useState} from 'react';
+import { Alert, SafeAreaView, Button, TextInput, Text, Pressable, View, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import axios from 'axios';
@@ -9,6 +9,25 @@ export default function LoginView({ navigation }) {
     const [password, setPassword] = useState('');
     const [login, setLogin] = useState(false);
     const [signIn, setSignin] = useState(false);
+
+    useEffect(() => {
+        navigation.addListener('beforeRemove',  async (e) => {
+            let email = await AsyncStorage.getItem( '@email', email);
+            if(email == null){
+                Alert.alert(
+                    'Not logged in',
+                    'You need to be logged in to use this app',
+                    [
+                        { text: "Go back to login", style: 'cancel', onPress: () => {
+                                navigation.navigate("Login");
+                        } },
+                    ]
+                );
+            }else{
+                return;
+            }
+        })
+    });
 
     return (
         <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
