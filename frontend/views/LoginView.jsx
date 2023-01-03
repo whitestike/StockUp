@@ -23,8 +23,11 @@ export default function LoginView({ navigation }) {
                     </Pressable>
                 </View>
             }
+
+            {signIn && <View>
             
-            {signIn && <View><TextInput
+            <Text>Sing in</Text>
+            <TextInput
                 style={{padding: 10, borderBottomWidth: 1}}
                 placeholder='Enter your email here'
                 value={email}
@@ -37,8 +40,12 @@ export default function LoginView({ navigation }) {
                 onChangeText={text => setPassword(text)}
             />
             <Button title='Submit' onPress={async () => {
-                let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  {headers: {
+                let singin = await axios.post('http://139.144.72.93:8000/signin/user/create', { email: email, password: password },  {headers: {
                         'content-type': 'application/json'
+                    }
+                });
+                let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  {headers: {
+                    'content-type': 'application/json'
                     }
                 });
                 try {
@@ -52,7 +59,11 @@ export default function LoginView({ navigation }) {
                 navigation.navigate('Home');
             }}/></View>}
             
-            {login && <View><TextInput
+            {login && <View>
+
+            <Text>Login</Text>
+
+            <TextInput
                 style={{padding: 10, borderBottomWidth: 1}}
                 placeholder='Enter your email here'
                 value={email}

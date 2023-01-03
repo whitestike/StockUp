@@ -34,10 +34,12 @@ class UserController extends AbstractController
         $user->setPassword($hashedPassword);
         $user->setEmail($email);
 
-        $UserRepo->save($user, true);
+        $userExists = $UserRepo->save($user);
 
         $response = new Response();
     
+        $response->setContent(json_encode(['userExists' => $userExists]));
+
         $response->headers->set('Content-Type', 'application/json');
         
         return $response;
