@@ -14,7 +14,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private PersistentCollection $userHasProduct;
 
     private function __construct(
-        private ?int $id = null,
+        private ?string $id = null,
         private ?string $email = null,
         private ?array $roles = [],
         private ?string $password = null,
@@ -90,5 +90,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public static function create(): self
+    {
+        return new self(uniqid());
     }
 }

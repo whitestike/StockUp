@@ -81,6 +81,14 @@ export default function HomeView({ navigation }) {
             <Pressable style={styles.button} onPress={() => { getProducts(); }}>
                 <Text style={styles.text}>Refresh</Text>
             </Pressable>
+
+            <Pressable style={styles.button} onPress={async () => {
+                await AsyncStorage.removeItem( '@email' );
+                await AsyncStorage.removeItem( '@password' );
+                navigation.navigate('Login')
+            }}>
+                <Text style={styles.text}>Logout</Text>
+            </Pressable>
         </SafeAreaView>
     );
 }
