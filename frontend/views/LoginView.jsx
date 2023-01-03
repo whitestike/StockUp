@@ -44,19 +44,25 @@ export default function LoginView({ navigation }) {
                         'content-type': 'application/json'
                     }
                 });
-                let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  {headers: {
-                    'content-type': 'application/json'
-                    }
-                });
-                try {
-                    await AsyncStorage.setItem( '@email', email);
-                    await AsyncStorage.setItem( '@password', password);
-                    await AsyncStorage.setItem( '@token', response.data.token);
-                } catch (e) {
-                    alert(e);   
-                }
 
-                navigation.navigate('Home');
+                if(!singin.data.userExists)
+                {
+                    let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  {headers: {
+                        'content-type': 'application/json'
+                        }
+                    });
+                    try {
+                        await AsyncStorage.setItem( '@email', email);
+                        await AsyncStorage.setItem( '@password', password);
+                        await AsyncStorage.setItem( '@token', response.data.token);
+                    } catch (e) {
+                        alert(e);   
+                    }
+
+                    navigation.navigate('Home');
+                }else{
+                    alert("user already exists with this email");
+                }
             }}/></View>}
             
             {login && <View>
