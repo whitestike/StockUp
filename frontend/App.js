@@ -20,13 +20,13 @@ import InventoryView from './views/InventoryView';
 function Home(){
   return (
     <Tab.Navigator initialRouteName="Home">
-      <Tab.Screen options={{headerShown: false, tabBarIcon: () => {
+      <Tab.Screen options={{ tabBarLabelStyle: {color: '#0F2D2A'}, headerShown: false, tabBarIcon: () => {
         return <HouseSvg/>;
       }}} name="Home" component={HomeView} />
-      <Tab.Screen options={{tabBarIcon: () => {
+      <Tab.Screen options={{ tabBarLabelStyle: {color: '#0F2D2A'}, tabBarIcon: () => {
         return <BoxesSvg/>;
       }}} name="Inventory" component={InventoryView} />
-      <Tab.Screen options={{tabBarIcon: () => {
+      <Tab.Screen options={{ tabBarLabelStyle: {color: '#0F2D2A'}, tabBarIcon: () => {
         return <BarcodeSvg/>;x
       }}} name="Scanner" component={Scanner} />
     </Tab.Navigator>
@@ -35,10 +35,10 @@ function Home(){
 
 export default function App() {
 
-  return (
+  return ( 
     <NavigationContainer style={styles.container}>
-      <Stack.Navigator initialRouteName="Home">
-        <Stack.Screen options={{headerShown: false}} name="Home" component={Home} />
+      <Stack.Navigator initialRouteName="HomeScreen">
+        <Stack.Screen options={{headerShown: false}} name="HomeScreen" component={Home} />
         <Stack.Screen options={{headerShown: false}} name="Login" component={LoginView} />
       </Stack.Navigator>
     </NavigationContainer>

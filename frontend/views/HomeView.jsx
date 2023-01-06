@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Text, Pressable, View, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import Footer from '../Components/Footer';
-
 import styles from '../Styles/styles';
 
 import axios from 'axios';
