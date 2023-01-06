@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import { Alert, SafeAreaView, Button, TextInput, Text, Pressable, View, StyleSheet } from 'react-native';
+import { Alert, SafeAreaView, TextInput, Text, Pressable, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import styles from '../Styles/styles';
 
 import axios from 'axios';
 
@@ -43,31 +45,70 @@ export default function LoginView({ navigation }) {
                 </View>
             }
 
-            {signIn && <View>
+            {signIn && 
+            <View>
             
-            <Text>Sing in</Text>
-            <TextInput
-                style={{padding: 10, borderBottomWidth: 1}}
-                placeholder='Enter your email here'
-                value={email}
-                onChangeText={text => setEmail(text)}
-            />
-            <TextInput
-                style={{padding: 10, borderBottomWidth: 1}}
-                placeholder='Enter your password here'
-                value={password}
-                onChangeText={text => setPassword(text)}
-            />
-            <Button title='Submit' onPress={async () => {
-                let singin = await axios.post('http://139.144.72.93:8000/signin/user/create', { email: email, password: password },  {headers: {
-                        'content-type': 'application/json'
-                    }
-                });
+                <Text>Sing in</Text>
+                <TextInput
+                    style={{padding: 10, borderBottomWidth: 1}}
+                    placeholder='Enter your email here'
+                    value={email}
+                    onChangeText={text => setEmail(text)}
+                />
+                <TextInput
+                    style={{padding: 10, borderBottomWidth: 1}}
+                    placeholder='Enter your password here'
+                    value={password}
+                    onChangeText={text => setPassword(text)}
+                />
+                <Pressable style={styles.button} onPress={async () => {
+                    let singin = await axios.post('http://139.144.72.93:8000/signin/user/create', { email: email, password: password },  {headers: {
+                            'content-type': 'application/json'
+                        }
+                    });
 
-                if(!singin.data.userExists)
-                {
+                    if(!singin.data.userExists)
+                    {
+                        let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  {headers: {
+                            'content-type': 'application/json'
+                            }
+                        });
+                        try {
+                            await AsyncStorage.setItem( '@email', email);
+                            await AsyncStorage.setItem( '@password', password);
+                            await AsyncStorage.setItem( '@token', response.data.token);
+                        } catch (e) {
+                            alert(e);   
+                        }
+
+                        navigation.navigate('Home');
+                    }else{
+                        alert("user already exists with this email");
+                    }
+                }}>
+                    <Text style={styles.text}>Submit</Text>
+                </Pressable>
+           </View>}
+            
+            {login && 
+            <View>
+                <Text>Login</Text>
+
+                <TextInput
+                    style={{padding: 10, borderBottomWidth: 1}}
+                    placeholder='Enter your email here'
+                    value={email}
+                    onChangeText={text => setEmail(text)}
+                />
+                <TextInput
+                    style={{padding: 10, borderBottomWidth: 1}}
+                    placeholder='Enter your password here'
+                    value={password}
+                    onChangeText={text => setPassword(text)}
+                />
+                <Pressable style={styles.button} onPress={async () => {
                     let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  {headers: {
-                        'content-type': 'application/json'
+                            'content-type': 'application/json'
                         }
                     });
                     try {
@@ -79,62 +120,10 @@ export default function LoginView({ navigation }) {
                     }
 
                     navigation.navigate('Home');
-                }else{
-                    alert("user already exists with this email");
-                }
-            }}/></View>}
-            
-            {login && <View>
-
-            <Text>Login</Text>
-
-            <TextInput
-                style={{padding: 10, borderBottomWidth: 1}}
-                placeholder='Enter your email here'
-                value={email}
-                onChangeText={text => setEmail(text)}
-            />
-            <TextInput
-                style={{padding: 10, borderBottomWidth: 1}}
-                placeholder='Enter your password here'
-                value={password}
-                onChangeText={text => setPassword(text)}
-            />
-            <Button title='Submit' onPress={async () => {
-                let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  {headers: {
-                        'content-type': 'application/json'
-                    }
-                });
-                try {
-                    await AsyncStorage.setItem( '@email', email);
-                    await AsyncStorage.setItem( '@password', password);
-                    await AsyncStorage.setItem( '@token', response.data.token);
-                } catch (e) {
-                    alert(e);   
-                }
-
-                navigation.navigate('Home');
-            }}/></View>}
+                }}>
+                    <Text style={styles.text}>Submit</Text>
+                </Pressable>
+            </View>}
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    button: {
-      margin: 5,
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 12,
-      paddingHorizontal: 32,
-      borderRadius: 4,
-      elevation: 3,
-      backgroundColor: 'black',
-    },
-    text: {
-        fontSize: 16,
-        lineHeight: 21,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
-    },
-});

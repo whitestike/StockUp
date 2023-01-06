@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, Pressable, StyleSheet, View, SafeAreaView } from 'react-native';
+import { Text, Pressable, View, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import styles from '../Styles/styles';
 
 import axios from 'axios';
 
@@ -98,23 +100,3 @@ export default function HomeView({ navigation }) {
         </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    button: {
-      margin: 5,
-      alignItems: 'center',
-      justifyContent: 'center',
-      paddingVertical: 12,
-      paddingHorizontal: 32,
-      borderRadius: 4,
-      elevation: 3,
-      backgroundColor: 'black',
-    },
-    text: {
-        fontSize: 16,
-        lineHeight: 21,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: 'white',
-    },
-  });

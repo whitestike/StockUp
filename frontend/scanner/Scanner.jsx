@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Text, SafeAreaView, StyleSheet, TextInput, Pressable} from 'react-native';
+import { Text, SafeAreaView, TextInput, Pressable} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+
+import styles from '../Styles/styles';
 
 import ScanCard from '../Components/ScanCard';
 
@@ -128,53 +130,3 @@ export default function Scanner({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  input: {
-    width: 200,
-    margin: 12,
-    borderBottomWidth: 1,
-    padding: 7,
-  },
-  button: {
-    margin: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 4,
-    elevation: 3,
-    backgroundColor: 'black',
-  },
-  text: {
-    fontSize: 16,
-    lineHeight: 21,
-    fontWeight: 'bold',
-    letterSpacing: 0.25,
-    color: 'white',
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: "white",
-    borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5
-  },
-  barcodebox: {
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-      flex: 2,
-      width: 400,
-      overflow: 'hidden',
-      borderRadius: 30,
-  },
-});
