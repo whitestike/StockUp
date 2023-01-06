@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Text, Pressable, View, SafeAreaView } from 'react-native';
+import { Text, Pressable, SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { useFonts } from 'expo-font';
 
 import styles from '../Styles/styles';
 
@@ -8,6 +10,12 @@ import axios from 'axios';
 
 export default function HomeView({ navigation }) {
     const [name, setName] = useState(false);
+
+    const [loaded] = useFonts({
+        Poppins: require('../assets/fonts/Poppins-Medium.ttf'),
+        Poppins_light: require('../assets/fonts/Poppins-Light.ttf'),
+        Poppins_bold: require('../assets/fonts/Poppins-SemiBold.ttf'),
+    });
 
     useEffect(() => {
         async function getToken(){
@@ -19,7 +27,7 @@ export default function HomeView({ navigation }) {
             navigation.navigate('Login');
           }
 
-          setName(email.split('.')[0]);
+          setName(email.split('.')[0][0].toUpperCase() + email.split('.')[0].slice(1, email.split('.')[0].length));
     
           let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  
             {headers: {
@@ -32,19 +40,19 @@ export default function HomeView({ navigation }) {
         getToken();
     }, []);
 
-    return (
-        <SafeAreaView style={{position: 'relative', height: '100%'}}>
-            <View style={{ paddingLeft: 10, marginTop: '12%',width: "50%", justifyContent: 'center'}}>
-                <Text style={{fontSize:14}}>Welcome {name}</Text>
-                <Text style={{fontSize:14}}>to StockUp</Text>
-            </View>
+    if (!loaded) {
+        return null;
+    }
 
-            <Pressable style={styles.button} onPress={async () => {
+    return (
+        <SafeAreaView style={{height: '100%', marginTop: 5}}>
+            <Pressable style={{ paddingLeft: 10, width: "50%", justifyContent: 'center'}} onPress={async () => {
                 await AsyncStorage.removeItem( '@email' );
                 await AsyncStorage.removeItem( '@password' );
                 navigation.navigate('Login')
             }}>
-                <Text style={styles.text}>Logout</Text>
+                <Text style={{  color: '#0F2D2A', fontSize:16, fontFamily: 'Poppins_light', lineHeight: 18}}>Hello</Text>
+                <Text style={{  color: '#0F2D2A', fontSize:16, fontFamily: 'Poppins_bold', lineHeight: 18}}>{name}</Text>
             </Pressable>
         </SafeAreaView>
     );

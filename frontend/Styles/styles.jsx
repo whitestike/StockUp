@@ -52,6 +52,15 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         padding: 7,
     },
+    acountLink: {
+        borderRadius: 20,
+        backgroundColor: 'black'
+    },
+    header: {
+        flexDirection: 'row',
+        width: '85%',
+        justifyContent: 'center'
+    }
 });
 
 export default styles;
