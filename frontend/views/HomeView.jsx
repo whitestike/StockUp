@@ -7,6 +7,7 @@ import axios from 'axios';
 export default function HomeView({ navigation }) {
     const [products, setProducts] = useState([]);
     const [show, setShow] = useState(false);
+    const [name, setName] = useState(false);
 
     async function getProducts(){
         const email = await AsyncStorage.getItem( '@email' );
@@ -31,6 +32,8 @@ export default function HomeView({ navigation }) {
           {
             navigation.navigate('Login');
           }
+
+          setName(email.split('.')[0]);
     
           let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  
             {headers: {
@@ -45,9 +48,12 @@ export default function HomeView({ navigation }) {
     }, []);
 
     return (
-        <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={{fontSize:24}}>Welcome to StockUp</Text>
-            <View>
+        <SafeAreaView>
+            <View style={{ paddingLeft: 10, marginTop: '12%',width: "50%", justifyContent: 'center'}}>
+                <Text style={{fontSize:14}}>Welcome {name}</Text>
+                <Text style={{fontSize:14}}>to StockUp</Text>
+            </View>
+            <View style={{ height: "50%", alignItems: 'center', justifyContent: 'center'}}>
                 <View style={{width: "100%", flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
                     <Text style={{fontSize:15, padding: 10, width: "55%", color: 'black'}}>Product Name</Text>
                     <Text style={{fontSize:15, width: "25%", color: 'black'}}>Amount</Text>
