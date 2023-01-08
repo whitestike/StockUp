@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_light'
     },
     productCard: {
-        width: "47%",
+        width: "46%",
         height: 75,
         borderColor: '#4BC188',
         borderWidth: 1,
@@ -87,12 +87,21 @@ const styles = StyleSheet.create({
     removeButton: {
         backgroundColor: '#0F2D2A',
         borderRadius: 10,
-
+        position: 'absolute', 
+        right: 3, 
+        bottom: 3
     },
     textLight: {
         color: 'white',
         fontFamily: 'Poppins_light',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        fontSize: 12
+    },
+    numberInput: {
+        textAlign: 'center',
         padding: 5,
+        fontSize: 16
     }
 });
 

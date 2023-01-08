@@ -14,7 +14,7 @@ export default function InventoryView({ navigation }) {
     const [show, setShow] = useState(false);
     const [removeModalShow, setRemoveModalShow] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [amount, setAmount] = useState(1);
+    const [amount, setAmount] = useState('1');
 
     const [loaded] = useFonts({
         Poppins: require('../assets/fonts/Poppins-Medium.ttf'),
@@ -86,13 +86,11 @@ export default function InventoryView({ navigation }) {
                             return (
                                 <View key={product.id} style={styles.productCard}>
                                     <Text style={[styles.textDark, {position: "absolute", left: 5, width: '100%', lineHeight: 16, top: 10}]}>{product.product.name}</Text>
-                                    <Text style={[styles.textDark, {position: "absolute", left: 5, width: '100%', bottom: 10}]}>{product.count}</Text>
-                                    <View style={{position: 'absolute', right: 5, bottom: 5}}>
-                                        <Pressable style={styles.removeButton} onPress={async () => {
-                                            setSelectedProduct(product);
-                                            setRemoveModalShow(true);
-                                        }}><Text style={styles.textLight}>Remove item</Text></Pressable>
-                                    </View>
+                                    <Text style={[styles.textDark, {position: "absolute", left: 5, width: '100%', bottom: 10}]}>count: {product.count}</Text>
+                                    <Pressable style={styles.removeButton} onPress={async () => {
+                                        setSelectedProduct(product);
+                                        setRemoveModalShow(true);
+                                    }}><Text style={styles.textLight}>Remove</Text></Pressable>
                                 </View>
                             );
                         })}
@@ -112,8 +110,11 @@ export default function InventoryView({ navigation }) {
                     <SafeAreaView style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
                         <Text>Amount</Text>
                         <TextInput
-                            style={{padding: 10, borderBottomWidth: 1}}
+                            style={styles.numberInput}
                             value={amount}
+                            onPressIn={() => setAmount()}
+                            keyboardType="numeric"
+                            maxLength={3}
                             onChangeText={text => setAmount(text)}
                         />
                         <Pressable style={styles.button} onPress={handleRemove}>

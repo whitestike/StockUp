@@ -17,7 +17,7 @@ export default function Scanner({ navigation }) {
   const [token, setToken] = useState('');
   const [modalVisable, setModalVisable] = useState(false);
   const [createProductVisable, setCreateProductVisable] = useState(false);
-  const [amount, setAmount] = useState(1);
+  const [amount, setAmount] = useState('1');
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -120,8 +120,11 @@ export default function Scanner({ navigation }) {
           <SafeAreaView style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
             <Text>Amount</Text>
             <TextInput
-                style={{padding: 10, borderBottomWidth: 1}}
+                style={styles.numberInput}
                 value={amount}
+                onPressIn={() => setAmount()}
+                keyboardType="numeric"
+                maxLength={3}
                 onChangeText={text => setAmount(text)}
             />
             <Pressable style={styles.button} onPress={handleAddProduct}>
