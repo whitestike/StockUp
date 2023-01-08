@@ -57,7 +57,6 @@ class UserHasProductRepository extends ServiceEntityRepository
         if($userHasProduct == null)
         {
             $userHasProduct = UserHasProduct::create($user, $product);
-
         }
 
         $userHasProduct->addToCount($amount);
@@ -72,6 +71,10 @@ class UserHasProductRepository extends ServiceEntityRepository
         $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
         $user = $entityManager->getRepository(User::class)->findOneBy(["email" => $userEmail]);
         $userHasProduct = $entityManager->getRepository(UserHasProduct::class)->findOneBy(['user' => $user, 'product' => $product]);
+        if($userHasProduct->count() < $amount)
+        {
+            $amount = $userHasProduct->count();
+        }
         $userHasProduct->subtractFromCount($amount);
         $entityManager->persist($userHasProduct);
         $entityManager->flush();
