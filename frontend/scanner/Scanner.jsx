@@ -17,6 +17,7 @@ export default function Scanner({ navigation }) {
   const [token, setToken] = useState('');
   const [modalVisable, setModalVisable] = useState(false);
   const [createProductVisable, setCreateProductVisable] = useState(false);
+  const [amount, setAmount] = useState(false);
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -35,7 +36,7 @@ export default function Scanner({ navigation }) {
 
   const handleAddProduct = async () => {
     const email = await AsyncStorage.getItem('@email');
-    let response = await axios.post('http://139.144.72.93:8000/api/inventory/add', { email: email ,code: code }, {
+    let response = await axios.post('http://139.144.72.93:8000/api/inventory/add', { email: email, code: code, amount: amount}, {
       headers: {
         'Authorization': 'Bearer ' + token,
       }
@@ -71,7 +72,8 @@ export default function Scanner({ navigation }) {
     if(response.data.product.name == 'no data')
     {
       setScanned(false);
-    }else if(response.data.product.name == 'no product linked to code')
+    }
+    else if(response.data.product.name == 'no product linked to code')
     {
       setCode(response.data.product.code);
       setCreateProductVisable(true);
@@ -112,6 +114,12 @@ export default function Scanner({ navigation }) {
         {scanned && <SafeAreaView style={styles.modalView}>
           <ScanCard productName={product}/>
           <SafeAreaView style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
+            <Text>Amount</Text>
+            <TextInput
+                style={{padding: 10, borderBottomWidth: 1}}
+                value={amount}
+                onChangeText={text => setAmount(text)}
+            />
             <Pressable style={styles.button} onPress={handleAddProduct}>
               <Text style={styles.text}>Add to your inventory</Text>
             </Pressable>    
@@ -125,6 +133,9 @@ export default function Scanner({ navigation }) {
           <TextInput style={styles.input} onChangeText={productName => setProduct(productName)}/>
           <Pressable style={styles.button} onPress={handleCreateProduct}>
             <Text style={styles.text}>Create Product</Text>
+          </Pressable>
+          <Pressable style={styles.button} onPress={() => setCreateProductVisable(false)}>  
+              <Text style={styles.text}>Scan again</Text>
           </Pressable>
         </SafeAreaView>}
     </SafeAreaView>
