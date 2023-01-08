@@ -57,10 +57,11 @@ class UserHasProductRepository extends ServiceEntityRepository
         if($userHasProduct == null)
         {
             $userHasProduct = UserHasProduct::create($user, $product);
-            $entityManager->persist($userHasProduct);
-        }else{
-            $userHasProduct->addToCount($amount);
+
         }
+
+        $userHasProduct->addToCount($amount);
+        $entityManager->persist($userHasProduct);
 
         $entityManager->flush();
     }
