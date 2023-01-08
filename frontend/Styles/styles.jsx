@@ -106,19 +106,20 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 30,
         marginRight: '45%',
+        paddingHorizontal: 5,
         textAlign: 'center',
         paddingTop: 25,
         paddingBottom: 15,
         fontFamily: 'Poppins_light',
         backgroundColor: 'white',
-        width: 150
+        color: '#0F2D2A'
     },
     line: {
         borderBottomWidth: 1,
         height: 0,
         width: '95%',
         position: 'absolute',
-        top: 47,
+        top: '50%',
         zIndex: -1,
         color: '#0F2D2A'
     },

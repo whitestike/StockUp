@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, Pressable, SafeAreaView } from 'react-native';
+import { Text, Pressable, SafeAreaView, View } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useFonts } from 'expo-font';
@@ -54,6 +54,10 @@ export default function HomeView({ navigation }) {
                 <Text style={{  color: '#0F2D2A', fontSize:16, fontFamily: 'Poppins_light', lineHeight: 18}}>Hello</Text>
                 <Text style={{  color: '#0F2D2A', fontSize:16, fontFamily: 'Poppins_bold', lineHeight: 18}}>{name}</Text>
             </Pressable>
+            <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Items you need</Text>
+                    <View style={styles.line}></View>
+            </View>
             <Pressable style={styles.button} onPress={() => navigation.navigate('Scanner')}>
                 <Text style={styles.text}>Scanner</Text>
             </Pressable>
