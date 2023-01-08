@@ -52,7 +52,7 @@ export default function Scanner({ navigation }) {
     {
       setScanned(false);
       setModalVisable(true);
-      setAmount(1);
+      setAmount('1');
     }
   }
 

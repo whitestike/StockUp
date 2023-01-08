@@ -68,6 +68,7 @@ export default function InventoryView({ navigation }) {
         });
 
         getProducts();
+        setAmount('1');
         setRemoveModalShow(false);
         setSelectedProduct(null);
     }
@@ -79,7 +80,11 @@ export default function InventoryView({ navigation }) {
     return(
         <SafeAreaView>
             {!removeModalShow && 
-            <View style={{height: '100%'}}>
+            <View style={{height: '100%', backgroundColor:"white", position: 'relative'}}>
+                <View style={styles.titleContainer}>
+                    <Text style={styles.title}>Inventory</Text>
+                    <View style={styles.line}></View>
+                </View>
                 <View style={{ height: "90%", alignItems: 'center'}}>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
                         {show && products.map(product => {

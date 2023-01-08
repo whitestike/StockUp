@@ -24,11 +24,11 @@ const styles = StyleSheet.create({
     },
     modalView: {
         margin: 20,
-        backgroundColor: "white",
+        backgroundColor: 'white',
         borderRadius: 20,
         padding: 35,
-        alignItems: "center",
-        shadowColor: "#000",
+        alignItems: 'center',
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
             height: 2
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_light'
     },
     productCard: {
-        width: "46%",
+        width: '46%',
         height: 75,
         borderColor: '#4BC188',
         borderWidth: 1,
@@ -102,6 +102,29 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 5,
         fontSize: 16
+    },
+    title: {
+        fontSize: 30,
+        marginRight: '45%',
+        textAlign: 'center',
+        paddingTop: 25,
+        paddingBottom: 15,
+        fontFamily: 'Poppins_light',
+        backgroundColor: 'white',
+        width: 150
+    },
+    line: {
+        borderBottomWidth: 1,
+        height: 0,
+        width: '95%',
+        position: 'absolute',
+        top: 47,
+        zIndex: -1,
+        color: '#0F2D2A'
+    },
+    titleContainer: {
+        position: 'relative',
+        alignItems: 'center'
     }
 });
 

@@ -45,7 +45,7 @@ export default function HomeView({ navigation }) {
     }
 
     return (
-        <SafeAreaView style={{height: '100%', marginTop: 5}}>
+        <SafeAreaView style={{height: '100%', marginTop: 5, backgroundColor:"white"}}>
             <Pressable style={{ paddingLeft: 10, width: "50%", justifyContent: 'center'}} onPress={async () => {
                 await AsyncStorage.removeItem( '@email' );
                 await AsyncStorage.removeItem( '@password' );
