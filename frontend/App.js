@@ -14,7 +14,6 @@ const Tab = createBottomTabNavigator();
 
 import HouseSvg from './Images/house-solid';
 import BoxesSvg from './Images/boxes';
-import BarcodeSvg from './Images/barcode';
 
 import Scanner from './scanner/Scanner';
 import HomeView from './views/HomeView';

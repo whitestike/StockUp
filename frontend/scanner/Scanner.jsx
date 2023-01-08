@@ -37,7 +37,7 @@ export default function Scanner({ navigation }) {
   const handleAddProduct = async () => {
     setCreateProductVisable(false);
     setModalVisable(true);
-    
+
     const email = await AsyncStorage.getItem('@email');
     let response = await axios.post('http://139.144.72.93:8000/api/inventory/add', { email: email, code: code, amount: amount}, {
       headers: {

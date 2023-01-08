@@ -51,7 +51,7 @@ class InventoryController extends AbstractController
             $amount = $content->amount;
         }
 
-        $userHasProductRepo->removeProductFromInventory($code, $email);
+        $userHasProductRepo->removeProductFromInventory($code, $email, $amount);
 
         $response = new Response();
     
