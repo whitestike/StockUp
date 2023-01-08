@@ -60,6 +60,39 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: '85%',
         justifyContent: 'center'
+    },
+    headerText: {
+        fontSize: 22,
+        color: '#0F2D2A',
+        textAlign: 'center',
+        fontFamily: 'Poppins_light'
+    },
+    productCard: {
+        width: "47%",
+        height: 75,
+        borderColor: '#4BC188',
+        borderWidth: 1,
+        borderRadius: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-around',
+        margin: 5,
+        position: 'relative'
+    },
+    textDark: {
+        fontSize: 15,
+        paddingHorizontal: 10,
+        color: '#0F2D2A'
+    },
+    removeButton: {
+        backgroundColor: '#0F2D2A',
+        borderRadius: 10,
+
+    },
+    textLight: {
+        color: 'white',
+        fontFamily: 'Poppins_light',
+        padding: 5,
     }
 });
 

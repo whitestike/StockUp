@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import ScanCard from '../Components/ScanCard';
+import { useFonts } from 'expo-font';
 
 import styles from '../Styles/styles';
 
@@ -15,6 +15,12 @@ export default function InventoryView({ navigation }) {
     const [removeModalShow, setRemoveModalShow] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [amount, setAmount] = useState(1);
+
+    const [loaded] = useFonts({
+        Poppins: require('../assets/fonts/Poppins-Medium.ttf'),
+        Poppins_light: require('../assets/fonts/Poppins-Light.ttf'),
+        Poppins_bold: require('../assets/fonts/Poppins-SemiBold.ttf'),
+    });
 
     async function getProducts(){
         const email = await AsyncStorage.getItem( '@email' );
@@ -62,32 +68,35 @@ export default function InventoryView({ navigation }) {
         });
 
         getProducts();
-        setSelectedProduct(null);
         setRemoveModalShow(false);
+        setSelectedProduct(null);
+    }
+
+    if (!loaded) {
+        return null;
     }
 
     return(
         <SafeAreaView>
             {!removeModalShow && 
-            <View>
-                <View style={{ height: "50%", alignItems: 'center', justifyContent: 'center'}}>
-                    <View style={{width: "100%", flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
-                        <Text style={{fontSize:15, padding: 10, width: "55%", color: 'black'}}>Product Name</Text>
-                        <Text style={{fontSize:15, width: "25%", color: 'black'}}>Amount</Text>
-                        <Text style={{fontSize:15, width: "20%", color: 'black'}}>Remove</Text>
+            <View style={{height: '100%'}}>
+                <View style={{ height: "90%", alignItems: 'center'}}>
+                    <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
+                        {show && products.map(product => {
+                            return (
+                                <View key={product.id} style={styles.productCard}>
+                                    <Text style={[styles.textDark, {position: "absolute", left: 5, width: '100%', lineHeight: 16, top: 10}]}>{product.product.name}</Text>
+                                    <Text style={[styles.textDark, {position: "absolute", left: 5, width: '100%', bottom: 10}]}>{product.count}</Text>
+                                    <View style={{position: 'absolute', right: 5, bottom: 5}}>
+                                        <Pressable style={styles.removeButton} onPress={async () => {
+                                            setSelectedProduct(product);
+                                            setRemoveModalShow(true);
+                                        }}><Text style={styles.textLight}>Remove item</Text></Pressable>
+                                    </View>
+                                </View>
+                            );
+                        })}
                     </View>
-                    {show && products.map(product => {
-                        return (
-                            <View key={product.id} style={{width: "100%", backgroundColor: 'black', borderBottomWidth: 1 , borderColor:'white',flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around'}}>
-                                <Text style={{fontSize:15,padding: 10, width: "60%", color: 'white'}}>{product.product.name}</Text>
-                                <Text style={{fontSize:15,padding: 10, color: 'white'}}>{product.count}</Text>
-                                <Pressable style={{backgroundColor:'red', width: 35, height: 40, alignItems: "center", justifyContent: 'center'}} onPress={async () => {
-                                    setSelectedProduct(product);
-                                    setRemoveModalShow(true);
-                                }}><Text style={{fontSize: 15, color: "white", width: 10}}>X</Text></Pressable>
-                            </View>
-                        );
-                    })}
                 </View>
                 <Pressable style={styles.button} onPress={() => { getProducts(); }}>
                     <Text style={styles.text}>Refresh</Text>
@@ -95,9 +104,11 @@ export default function InventoryView({ navigation }) {
             </View>}
 
             {removeModalShow && 
-                <View>
-                    <ScanCard productName={selectedProduct.product.name}/>
-                    <ScanCard productName={selectedProduct.count}/>
+                <View style={styles.modalView}>
+                    <View style={styles.container}>
+                        <Text style={styles.headerText}>{selectedProduct.count} {selectedProduct.product.name}'s are in your inventory</Text>
+                        <Text style={styles.headerText}></Text>
+                    </View>
                     <SafeAreaView style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
                         <Text>Amount</Text>
                         <TextInput
