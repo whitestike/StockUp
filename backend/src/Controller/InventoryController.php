@@ -29,10 +29,9 @@ class InventoryController extends AbstractController
             $amount = $content->amount;
         }
 
-        $userHasProductRepo->addProductToInventory($code, $email);
+        $userHasProductRepo->addProductToInventory($code, $email, $amount);
 
         $response = new Response();
-        $response->setContent(json_encode(['amount' => $amount]));
     
         $response->headers->set('Content-Type', 'application/json');
         
