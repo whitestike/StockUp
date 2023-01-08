@@ -31,9 +31,6 @@ function Home(){
       <Tab.Screen options={{ tabBarLabelStyle: {color: '#0F2D2A'}, headerShown: false, tabBarIcon: () => {
         return <BoxesSvg/>;
       }}} name="Inventory" component={InventoryView} />
-      <Tab.Screen options={{ tabBarLabelStyle: {color: '#0F2D2A'}, headerShown: false, tabBarIcon: () => {
-        return <BarcodeSvg/>;
-      }}} name="Scanner" component={Scanner} />
     </Tab.Navigator>
   );
 }
@@ -64,6 +61,12 @@ export default function App() {
             <Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_bold', textAlign: 'right'}}>Stock</Text><Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_light', textAlign: 'left'}}>Up</Text>
           </View>);
         }}} name="Login" component={LoginView} />
+        <Stack.Screen options={{headerStyle: { backgroundColor: '#204E4A'}, headerTitle: () => {
+          return (
+          <View style={styles.header}>
+            <Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_bold', textAlign: 'right'}}>Stock</Text><Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_light', textAlign: 'left'}}>Up</Text>
+          </View>);
+        }}} name="Scanner" component={Scanner} />
       </Stack.Navigator>
     </NavigationContainer>
   );

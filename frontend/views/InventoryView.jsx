@@ -78,6 +78,9 @@ export default function InventoryView({ navigation }) {
             <Pressable style={styles.button} onPress={() => { getProducts(); }}>
                 <Text style={styles.text}>Refresh</Text>
             </Pressable>
+            <Pressable style={styles.button} onPress={() => navigation.navigate('Scanner')}>
+                <Text style={styles.text}>Scanner</Text>
+            </Pressable>
         </SafeAreaView>
     );
 }

@@ -17,7 +17,7 @@ export default function Scanner({ navigation }) {
   const [token, setToken] = useState('');
   const [modalVisable, setModalVisable] = useState(false);
   const [createProductVisable, setCreateProductVisable] = useState(false);
-  const [amount, setAmount] = useState(false);
+  const [amount, setAmount] = useState(1);
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -35,6 +35,9 @@ export default function Scanner({ navigation }) {
   }, []);
 
   const handleAddProduct = async () => {
+    setCreateProductVisable(false);
+    setModalVisable(true);
+    
     const email = await AsyncStorage.getItem('@email');
     let response = await axios.post('http://139.144.72.93:8000/api/inventory/add', { email: email, code: code, amount: amount}, {
       headers: {
@@ -49,6 +52,7 @@ export default function Scanner({ navigation }) {
     {
       setScanned(false);
       setModalVisable(true);
+      setAmount(1);
     }
   }
 
@@ -60,7 +64,6 @@ export default function Scanner({ navigation }) {
     })
     setCreateProductVisable(false);
     setScanned(true);
-    handleAddProduct();
   }
 
   const fetchProductData = async (data) => {
@@ -99,7 +102,8 @@ export default function Scanner({ navigation }) {
 
   return (
     <SafeAreaView style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: '#fff'}}>
-        {(!createProductVisable && !modalVisable && !scanned) && <BarCodeScanner
+        
+        {(!scanned && !createProductVisable && !modalVisable) && <BarCodeScanner
             onBarCodeScanned={scanned ? undefined : fetchProductData}
             style={styles.barcodebox}
         />}
