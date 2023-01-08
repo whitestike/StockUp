@@ -30,7 +30,23 @@ class UserHasProductRepository extends ServiceEntityRepository
         return $productsFromUser;
     }
 
-    public function addProductToInventory(string $code, string $userEmail): void 
+    public function getProductFromUserWhereAmountIsZero(string $userEmail): array 
+    {
+        $entityManager = $this->getEntityManager();
+        $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $userEmail]);
+        $products = $entityManager->getRepository(UserHasProduct::class)->findBy(['user' => $user]);
+
+        $productsFromUser = [];
+        foreach($products as $product){
+            if($product->count() == 0){
+                array_push($productsFromUser, $product->toArray());
+            }
+        }
+
+        return $productsFromUser;
+    }
+
+    public function addProductToInventory(string $code, string $userEmail, int $amount): void 
     {
         $entityManager = $this->getEntityManager();
         $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
@@ -43,19 +59,19 @@ class UserHasProductRepository extends ServiceEntityRepository
             $userHasProduct = UserHasProduct::create($user, $product);
             $entityManager->persist($userHasProduct);
         }else{
-            $userHasProduct->addToCount(1);
+            $userHasProduct->addToCount($amount);
         }
 
         $entityManager->flush();
     }
 
-    public function removeProductFromInventory(string $code, string $userEmail): void 
+    public function removeProductFromInventory(string $code, string $userEmail, int $amount): void 
     {
         $entityManager = $this->getEntityManager();
         $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
         $user = $entityManager->getRepository(User::class)->findOneBy(["email" => $userEmail]);
         $userHasProduct = $entityManager->getRepository(UserHasProduct::class)->findOneBy(['user' => $user, 'product' => $product]);
-        $userHasProduct->subtractFromCount(1);
+        $userHasProduct->subtractFromCount($amount);
         $entityManager->persist($userHasProduct);
         $entityManager->flush();
     }

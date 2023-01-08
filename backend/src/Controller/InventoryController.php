@@ -22,10 +22,17 @@ class InventoryController extends AbstractController
         $content = json_decode($request->getContent());
         $email = $content->email;
         $code = $content->code;
-        
+        $amount = 1;
+
+        if(isset($content->amount))
+        {
+            $amount = $content->amount;
+        }
+
         $userHasProductRepo->addProductToInventory($code, $email);
 
         $response = new Response();
+        $response->setContent(json_encode(['amount' => $amount]));
     
         $response->headers->set('Content-Type', 'application/json');
         
@@ -38,7 +45,13 @@ class InventoryController extends AbstractController
         $content = json_decode($request->getContent());
         $email = $content->email;
         $code = $content->code;
+        $amount = 1;
         
+        if(isset($content->amount))
+        {
+            $amount = $content->amount;
+        }
+
         $userHasProductRepo->removeProductFromInventory($code, $email);
 
         $response = new Response();
@@ -54,6 +67,21 @@ class InventoryController extends AbstractController
         $userEmail = json_decode($request->getContent())->email;
         
         $products = $userHasProductRepo->getProductFromUser($userEmail);
+
+        $response = new Response();
+        $response->setContent(json_encode(['products' => $products]));
+    
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
+    }
+
+    #[Route('/api/inventory/toget', methods: ['POST'])]
+    public function fetchProductsToGet(Request $request, UserHasProductRepository $userHasProductRepo): Response
+    {
+        $userEmail = json_decode($request->getContent())->email;
+
+        $products = $userHasProductRepo->getProductFromUserWhereAmountIsZero($userEmail);
 
         $response = new Response();
         $response->setContent(json_encode(['products' => $products]));
