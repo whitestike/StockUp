@@ -12,6 +12,7 @@ class Product
         private string $id,
         private string $code,
         private string $name,
+        private string $brand,
     ) {
 
     }
@@ -19,6 +20,11 @@ class Product
     public function id(): int
     {
         return $this->id;
+    }
+
+    public function brand(): string
+    {
+        return $this->brand;
     }
 
     public function code(): string
@@ -36,9 +42,9 @@ class Product
         $this->name = $name;
     }
 
-    public static function create(string $code ,string $name): self
+    public static function create(string $code ,string $name, string $brand): self
     {
-        return new self(uniqid(), $code, $name);
+        return new self(uniqid(), $code, $name, $brand);
     }
 
 }

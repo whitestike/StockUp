@@ -20,8 +20,9 @@ class ProductController extends AbstractController
         $content = json_decode($request->getContent());
         $code = $content->code;
         $name = $content->name;
+        $brand = $content->brand;
 
-        $ProductRepo->createOrUpdate($code, $name);
+        $ProductRepo->createOrUpdate($code, $name, $brand);
 
         $response = new Response();
     

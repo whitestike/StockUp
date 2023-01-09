@@ -29,7 +29,7 @@ class ProductRepository extends ServiceEntityRepository
         return $returnArray;
     }
 
-    public function createOrUpdate(string $code, string $name): void
+    public function createOrUpdate(string $code, string $name, string $brand): void
     {
         $entityManager = $this->getEntityManager();
 
@@ -37,7 +37,7 @@ class ProductRepository extends ServiceEntityRepository
 
         if($product == null)
         {
-            $product = Product::create($code, $name);
+            $product = Product::create($code, $name, $brand);
         }
         else{
             $product->updateName($name);

@@ -3,6 +3,7 @@
         <id name="id" type="string" length="255" column="id"/>
         <field name="code" type="string" length="255" column="code" />
         <field name="name" type="string" length="255" column="name" />
+        <field name="brand" type="string" length="255" column="brand" />
         <one-to-many field="userHasProduct" target-entity="UserHasProduct" mapped-by="products">
             <cascade>
                 <cascade-persist/>
