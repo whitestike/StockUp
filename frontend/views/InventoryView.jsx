@@ -126,12 +126,15 @@ export default function InventoryView({ navigation }) {
                             {show && products.map(product => {
                                 return (
                                     <View key={product.id} style={styles.productCard}>
-                                        <Text style={[styles.textDark, {position: "absolute", left: 5, width: '100%', lineHeight: 16, top: 10}]}>{product.product.name}</Text>
-                                        <Text style={[styles.textDark, {position: "absolute", left: 5, width: '100%', bottom: 10}]}>count: {product.count}</Text>
+                                        <View>
+                                            <Text style={[styles.textDark, {fontSize: 16}]}>name: {product.product.name}</Text>
+                                            <Text style={[styles.textDark, {fontSize: 16}]}>brand: {product.product.brand}</Text>
+                                            <Text style={[styles.textDark, {fontSize: 16}]}>count: {product.count}</Text>
+                                        </View>
                                         <Pressable style={styles.removeButton} onPress={async () => {
                                             setSelectedProduct(product);
                                             setRemoveModalShow(true);
-                                        }}><Text style={styles.textLight}>Remove</Text></Pressable>
+                                        }}><Text style={[styles.textLight, {fontSize: 14}]}>Remove</Text></Pressable>
                                     </View>
                                 );
                             })}

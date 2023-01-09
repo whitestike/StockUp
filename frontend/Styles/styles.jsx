@@ -79,20 +79,19 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_light'
     },
     productCard: {
-        width: '46%',
-        height: 75,
+        width: '90%',
+        height: 90,
         borderColor: '#4BC188',
-        borderWidth: 1,
-        borderRadius: 15,
+        borderBottomWidth: 1,
         flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-around',
+        justifyContent: 'flex-start',
         margin: 5,
         position: 'relative'
     },
     textDark: {
         fontSize: 15,
         paddingHorizontal: 10,
+        fontFamily: 'Poppins_light',
         color: '#0F2D2A'
     },
     textSecondaryLight: {
@@ -104,6 +103,8 @@ const styles = StyleSheet.create({
     removeButton: {
         backgroundColor: '#0F2D2A',
         borderRadius: 10,
+        paddingVertical: 3,
+        paddingHorizontal: 7,
         position: 'absolute', 
         right: 3, 
         bottom: 3

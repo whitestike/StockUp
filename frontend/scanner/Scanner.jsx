@@ -14,6 +14,7 @@ export default function Scanner({ navigation }) {
   const [scanned, setScanned] = useState(false);
   const [code, setCode] = useState('no data');
   const [product, setProduct] = useState('no data');
+  const [brand, setBrand] = useState('no data');
   const [token, setToken] = useState('');
   const [modalVisable, setModalVisable] = useState(false);
   const [createProductVisable, setCreateProductVisable] = useState(false);
@@ -57,7 +58,7 @@ export default function Scanner({ navigation }) {
   }
 
   const handleCreateProduct = async () => {
-    let response = await axios.post('http://139.144.72.93:8000/api/product/add', { name: product ,code: code }, {
+    let response = await axios.post('http://139.144.72.93:8000/api/product/add', { name: product ,code: code, brand: brand }, {
       headers: {
         'Authorization': 'Bearer ' + token,
       }
@@ -86,6 +87,7 @@ export default function Scanner({ navigation }) {
       setScanned(true);
       setCode(response.data.product.code);
       setProduct(response.data.product.name);
+      setBrand(response.data.product.brand);
     }
   };
 
@@ -116,7 +118,9 @@ export default function Scanner({ navigation }) {
         </SafeAreaView>}
 
         {scanned && <SafeAreaView style={styles.modalView}>
+          <ScanCard productName={code}/>
           <ScanCard productName={product}/>
+          <ScanCard productName={brand}/>
           <SafeAreaView style={{width: "100%", alignItems: 'center', justifyContent: 'center'}}>
             <Text>Amount</Text>
             <TextInput
@@ -125,7 +129,7 @@ export default function Scanner({ navigation }) {
                 onPressIn={() => setAmount()}
                 keyboardType="numeric"
                 maxLength={3}
-                onChangeText={text => setAmount(text)}
+                onChangeText={text => setAmount(text)} 
             />
             <Pressable style={styles.button} onPress={handleAddProduct}>
               <Text style={styles.text}>Add to your inventory</Text>
@@ -136,8 +140,13 @@ export default function Scanner({ navigation }) {
           </SafeAreaView>
         </SafeAreaView>}
 
-        {createProductVisable && <SafeAreaView style={styles.modalView}>
+        {createProductVisable && 
+        <SafeAreaView style={styles.modalView}>
+          <Text>code: {code}</Text>
+          <Text>Enter product name</Text>
           <TextInput style={styles.input} onChangeText={productName => setProduct(productName)}/>
+          <Text>Enter product brand</Text>
+          <TextInput style={styles.input} onChangeText={productBrand => setBrand(productBrand)}/>
           <Pressable style={styles.button} onPress={handleCreateProduct}>
             <Text style={styles.text}>Create Product</Text>
           </Pressable>
