@@ -15,6 +15,17 @@ const styles = StyleSheet.create({
       elevation: 3,
       backgroundColor: 'black',
     },
+    button2: {
+        margin: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        width: 120,
+        borderRadius: 4,
+        elevation: 3,
+        backgroundColor: '#4BC188',
+      },
     text: {
         fontSize: 16,
         lineHeight: 21,
