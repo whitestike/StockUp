@@ -108,17 +108,16 @@ export default function InventoryView({ navigation }) {
                         <Text style={styles.title}>Inventory</Text>
                         <View style={styles.line}></View>
                     </View>
-                    <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent: 'space-between', marginLeft: '47%', marginBottom: 15, width: '50%',borderBottomWidth: 1, borderColor: '#0F2D2A'}}>
+                    <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center',justifyContent: 'space-between', marginLeft: '47%', marginBottom: 15, width: '50%', borderRadius: 10, backgroundColor: '#204E4A'}}>
                         <TextInput
-                            style={{width: '80%'}}
+                            style={{width: '80%', color: 'white', fontFamily: 'Poppins_light'}}
                             value={filter}
-                            onEndEditing={() => getProducts()}
                             onChangeText={text => {
                                 setFilter(text);
                                 getProducts();
                             }}
                         />
-                        <Pressable>
+                        <Pressable style={{paddingRight: 5}} onPress={() => {getProducts();}}>
                             <SearchSvg/>
                         </Pressable>
                     </View>
