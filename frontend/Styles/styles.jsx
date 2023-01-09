@@ -155,7 +155,16 @@ const styles = StyleSheet.create({
     titleContainer: {
         position: 'relative',
         alignItems: 'center'
+    },
+    containerProductText: {
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    textLabel: {
+        fontFamily: 'Poppins_bold',
+        fontSize: 16
     }
+
 });
 
 export default styles;

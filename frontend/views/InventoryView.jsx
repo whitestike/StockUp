@@ -127,9 +127,9 @@ export default function InventoryView({ navigation }) {
                                 return (
                                     <View key={product.id} style={styles.productCard}>
                                         <View>
-                                            <Text style={[styles.textDark, {fontSize: 16}]}>name: {product.product.name}</Text>
-                                            <Text style={[styles.textDark, {fontSize: 16}]}>brand: {product.product.brand}</Text>
-                                            <Text style={[styles.textDark, {fontSize: 16}]}>count: {product.count}</Text>
+                                            <View style={styles.containerProductText}><Text style={styles.textLabel}>name</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.name}</Text></View>
+                                            <View style={styles.containerProductText}><Text style={styles.textLabel}>brand</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.brand}</Text></View>
+                                            <View style={styles.containerProductText}><Text style={styles.textLabel}>count</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.count}</Text></View>
                                         </View>
                                         <Pressable style={styles.removeButton} onPress={async () => {
                                             setSelectedProduct(product);
