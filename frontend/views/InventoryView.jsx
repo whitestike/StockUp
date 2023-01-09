@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFonts } from 'expo-font';
 
 import styles from '../Styles/styles';
+import SearchSvg from '../Images/search';
 
 import axios from 'axios';
 
@@ -16,6 +17,7 @@ export default function InventoryView({ navigation }) {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [amount, setAmount] = useState('1');
     const [refreshing, setRefreshing] = React.useState(false);
+    const [filter, setFilter] = React.useState('');
 
     const [loaded] = useFonts({
         Poppins: require('../assets/fonts/Poppins-Medium.ttf'),
@@ -33,7 +35,17 @@ export default function InventoryView({ navigation }) {
                 'Content-Type': 'application/json'
             }
         })
-        setProducts(response.data.products);
+
+        let returnProducts = [];
+
+        response.data.products.forEach(product => {
+            if(product.product.name.includes(filter))
+            {
+                returnProducts.push(product);
+            }
+        });
+
+        setProducts(returnProducts);
         setShow(true);
         setRefreshing(false);
     }
@@ -57,6 +69,7 @@ export default function InventoryView({ navigation }) {
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
+        setFilter('');
         getToken();
         getProducts();
     }, []);
@@ -88,20 +101,26 @@ export default function InventoryView({ navigation }) {
     return(
         <SafeAreaView>
             <StatusBar backgroundColor='#204E4A'/>
-            <ScrollView
-                style={{height: '100%', backgroundColor:"white", position: 'relative'}}
-                refreshControl={
-                    <RefreshControl
-                        refreshing={refreshing}
-                        onRefresh={onRefresh}
-                    />
-                }
-            >
+            <ScrollView style={{ height: '100%', backgroundColor:"white", position: 'relative' }} refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> }>
                 {!removeModalShow && 
                 <View>
                     <View style={styles.titleContainer}>
                         <Text style={styles.title}>Inventory</Text>
                         <View style={styles.line}></View>
+                    </View>
+                    <View style={{ flexDirection: 'row', alignItems: 'center',justifyContent: 'space-between', marginLeft: '47%', marginBottom: 15, width: '50%',borderBottomWidth: 1, borderColor: '#0F2D2A'}}>
+                        <TextInput
+                            style={{width: '80%'}}
+                            value={filter}
+                            onEndEditing={() => getProducts()}
+                            onChangeText={text => {
+                                setFilter(text);
+                                getProducts();
+                            }}
+                        />
+                        <Pressable>
+                            <SearchSvg/>
+                        </Pressable>
                     </View>
                     <View style={{ height: "90%", alignItems: 'center'}}>
                         <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
