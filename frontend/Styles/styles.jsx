@@ -84,6 +84,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         color: '#0F2D2A'
     },
+    textSecondaryLight: {
+        fontSize: 16,
+        paddingHorizontal: 10,
+        color: '#204E4A',
+        fontFamily: 'Poppins_light'
+    },
     removeButton: {
         backgroundColor: '#0F2D2A',
         borderRadius: 10,
@@ -105,6 +111,17 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
+        marginRight: '45%',
+        paddingHorizontal: 5,
+        textAlign: 'center',
+        paddingTop: 25,
+        paddingBottom: 15,
+        fontFamily: 'Poppins_light',
+        backgroundColor: 'white',
+        color: '#0F2D2A'
+    },
+    title2: {
+        fontSize: 24,
         marginRight: '45%',
         paddingHorizontal: 5,
         textAlign: 'center',

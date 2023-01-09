@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from './Styles/styles';
 
-import { Text, View } from 'react-native';
+import { Text, View, StatusBar} from 'react-native';
 
 import { useFonts } from 'expo-font';
 

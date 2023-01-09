@@ -1,4 +1,4 @@
-import { Text, TextInput, Pressable, View, SafeAreaView } from 'react-native';
+import { Text, TextInput, Pressable, View, SafeAreaView, StatusBar } from 'react-native';
 import React, { useState, useEffect } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -79,6 +79,7 @@ export default function InventoryView({ navigation }) {
 
     return(
         <SafeAreaView>
+            <StatusBar backgroundColor='#204E4A'/>
             {!removeModalShow && 
             <View style={{height: '100%', backgroundColor:"white", position: 'relative'}}>
                 <View style={styles.titleContainer}>
