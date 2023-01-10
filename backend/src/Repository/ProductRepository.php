@@ -1,6 +1,8 @@
 <?php
 namespace App\Repository;
 
+use App\Entity\Brand;
+use App\Entity\Tag;
 use App\Entity\Product;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -29,7 +31,7 @@ class ProductRepository extends ServiceEntityRepository
         return $returnArray;
     }
 
-    public function createOrUpdate(string $code, string $name, string $brand): void
+    public function createOrUpdate(string $code, string $name, Brand $brand, Tag $tag): void
     {
         $entityManager = $this->getEntityManager();
 
@@ -37,7 +39,7 @@ class ProductRepository extends ServiceEntityRepository
 
         if($product == null)
         {
-            $product = Product::create($code, $name, $brand);
+            $product = Product::create($code, $name, $brand, $tag);
         }
         else{
             $product->updateName($name);

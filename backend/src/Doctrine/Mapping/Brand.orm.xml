@@ -1,0 +1,11 @@
+<doctrine-mapping>
+    <entity name="App\Entity\Brand" table="brands" repository-class="App\Repository\BrandRepository">
+        <id name="id" type="string" length="255" column="id"/>
+        <field name="brandName" type="string" length="255" column="brand_name" />
+        <one-to-many field="products" target-entity="Product" mapped-by="brands">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+    </entity>
+</doctrine-mapping>

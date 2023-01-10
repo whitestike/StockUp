@@ -1,0 +1,11 @@
+<doctrine-mapping>
+    <entity name="App\Entity\Tag" table="tags" repository-class="App\Repository\TagRepository">
+        <id name="id" type="string" length="255" column="id"/>
+        <field name="tagName" type="string" length="255" column="tag_name" />
+        <one-to-many field="products" target-entity="Product" mapped-by="tags">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
+    </entity>
+</doctrine-mapping>

@@ -3,7 +3,12 @@
         <id name="id" type="string" length="255" column="id"/>
         <field name="code" type="string" length="255" column="code" />
         <field name="name" type="string" length="255" column="name" />
-        <field name="brand" type="string" length="255" column="brand" />
+        <many-to-one field="tag" target-entity="Tag">
+            <join-column name="tag_id" referenced-column-name="id" />
+        </many-to-one>
+        <many-to-one field="brand" target-entity="Brand">
+            <join-column name="brand_id" referenced-column-name="id" />
+        </many-to-one>
         <one-to-many field="userHasProduct" target-entity="UserHasProduct" mapped-by="products">
             <cascade>
                 <cascade-persist/>

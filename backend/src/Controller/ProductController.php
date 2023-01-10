@@ -12,17 +12,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\ProductRepository;
+use App\Repository\TagRepository;
+use App\Repository\BrandRepository;
+
 class ProductController extends AbstractController
 {
     #[Route('/api/product/add', methods: ['POST'])]
-    public function createProduct(Request $request, ProductRepository $ProductRepo): Response
+    public function createProduct(Request $request, ProductRepository $ProductRepo, TagRepository $tagRepo, BrandRepository $brandRepo): Response
     {
         $content = json_decode($request->getContent());
         $code = $content->code;
         $name = $content->name;
-        $brand = $content->brand;
+        $requestBrand = $content->brand;
+        $requestTag = $content->tag;
 
-        $ProductRepo->createOrUpdate($code, $name, $brand);
+        $tag = $tagRepo->getOrCreate($requestBrand);
+        $brand = $brandRepo->getOrCreate($requestTag);
+
+        $ProductRepo->createOrUpdate($code, $name, $brand, $tag);
 
         $response = new Response();
     

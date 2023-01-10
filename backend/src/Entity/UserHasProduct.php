@@ -43,7 +43,12 @@ class UserHasProduct
     {
         return array(
             'id' => $this->id,
-            'product' => ['name' => $this->product->name(), 'code' => $this->product->code(), 'brand' => $this->product->brand()],
+            'product' => [
+                'name' => $this->product->name(), 
+                'code' => $this->product->code(), 
+                'brand' => $this->product->brand()->brandName(), 
+                'tag' => $this->product->tag()->tagName()
+            ],
             'count' => $this->count
         );
     }
