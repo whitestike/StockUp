@@ -14,7 +14,8 @@ export default function Scanner({ navigation }) {
   const [scanned, setScanned] = useState(false);
   const [code, setCode] = useState('no data');
   const [product, setProduct] = useState('no data');
-  const [brand, setBrand] = useState('no data');
+  const [brand, setBrand] = useState('');
+  const [tag, setTag] = useState('');
   const [token, setToken] = useState('');
   const [modalVisable, setModalVisable] = useState(false);
   const [createProductVisable, setCreateProductVisable] = useState(false);
@@ -58,7 +59,7 @@ export default function Scanner({ navigation }) {
   }
 
   const handleCreateProduct = async () => {
-    let response = await axios.post('http://139.144.72.93:8000/api/product/add', { name: product ,code: code, brand: brand }, {
+    let response = await axios.post('http://139.144.72.93:8000/api/product/add', { name: product ,code: code, brand: brand , tag: tag}, {
       headers: {
         'Authorization': 'Bearer ' + token,
       }
@@ -147,6 +148,8 @@ export default function Scanner({ navigation }) {
           <TextInput style={styles.input} onChangeText={productName => setProduct(productName)}/>
           <Text>Enter product brand</Text>
           <TextInput style={styles.input} onChangeText={productBrand => setBrand(productBrand)}/>
+          <Text>Enter a tag for the product</Text>
+          <TextInput style={styles.input} onChangeText={productTag => setTag(productTag)}/>
           <Pressable style={styles.button} onPress={handleCreateProduct}>
             <Text style={styles.text}>Create Product</Text>
           </Pressable>

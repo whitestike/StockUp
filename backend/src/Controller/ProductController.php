@@ -26,8 +26,8 @@ class ProductController extends AbstractController
         $requestBrand = $content->brand;
         $requestTag = $content->tag;
 
-        $tag = $tagRepo->getOrCreate($requestBrand);
-        $brand = $brandRepo->getOrCreate($requestTag);
+        $tag = $tagRepo->getOrCreate($requestTag);
+        $brand = $brandRepo->getOrCreate($requestBrand);
 
         $ProductRepo->createOrUpdate($code, $name, $brand, $tag);
 
