@@ -123,13 +123,13 @@ export default function InventoryView({ navigation }) {
                             <SearchSvg/>
                         </Pressable>
                     </View>
-                    <View style={{ height: "90%", alignItems: 'center'}}>
+                    <View style={{ height: "100%", alignItems: 'center'}}>
                         <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
                             {show && 
                                 tags.map(tag => {
                                     return (
-                                        <View key={tag} style={{width: '100%', alignItems: 'center'}}>
-                                            <Text style={styles.textLabel}>{tag}</Text>
+                                        <View key={tag} style={{width: '90%'}}>
+                                            <Text style={styles.textLabel2}>{tag}</Text>
                                             {products.map(product => {
                                                 return (
                                                     <View key={product.id} style={{width: '100%', alignItems: 'center'}}>

@@ -163,6 +163,14 @@ const styles = StyleSheet.create({
     textLabel: {
         fontFamily: 'Poppins_bold',
         fontSize: 16
+    },
+    textLabel2: {
+        fontFamily: 'Poppins_bold',
+        fontSize: 20,
+        marginLeft:  17,
+        color: '#0F2D2A',
+        borderBottomWidth: 1,
+        borderBottomColor: '#0F2D2A'
     }
 
 });
