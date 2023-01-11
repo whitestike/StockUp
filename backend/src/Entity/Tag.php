@@ -24,6 +24,14 @@ class Tag
     {
         return $this->tagName;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->tagName,
+        ];
+    }
     
     public static function create(string $tagName): self
     {

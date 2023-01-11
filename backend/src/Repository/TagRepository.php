@@ -27,4 +27,20 @@ class TagRepository extends ServiceEntityRepository
 
         return $tag;
     }
+
+    public function getAllTags(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT t FROM App\Entity\Tag t');
+        $tags = $query->getResult();
+
+        $returnArray = array();
+
+        foreach($tags as $tag)
+        {
+            array_push($returnArray, $tag->toArray());
+        }
+
+        return $returnArray;
+    }
 }
