@@ -2,6 +2,7 @@ import { Text, TextInput, Pressable, View, SafeAreaView, StatusBar, RefreshContr
 import React, { useState, useEffect } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import SelectDropdown from 'react-native-select-dropdown'
 
 import { useFonts } from 'expo-font';
 
@@ -18,12 +19,26 @@ export default function InventoryView({ navigation }) {
     const [amount, setAmount] = useState('1');
     const [refreshing, setRefreshing] = React.useState(false);
     const [filter, setFilter] = React.useState('');
+    const [tags, setTags] = React.useState([]);
 
     const [loaded] = useFonts({
         Poppins: require('../assets/fonts/Poppins-Medium.ttf'),
         Poppins_light: require('../assets/fonts/Poppins-Light.ttf'),
         Poppins_bold: require('../assets/fonts/Poppins-SemiBold.ttf'),
     });
+
+    async function getTags(){
+        const token = await AsyncStorage.getItem( '@token' );
+
+        let response = await axios.post('http://139.144.72.93:8000/api/tags/get', {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        })
+
+        setTags(response.data.tags);
+    }
 
     async function getProducts(){
         const email = await AsyncStorage.getItem( '@email' );
