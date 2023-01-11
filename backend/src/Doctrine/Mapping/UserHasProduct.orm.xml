@@ -2,6 +2,7 @@
     <entity name="App\Entity\UserHasProduct" table="user_has_product" repository-class="App\Repository\UserHasProductRepository">
         <id name="id" type="string" length="255" column="id"/>
         <field name="count" type="integer" column="count"/>
+        <field name="onWishList" type="boolean" column="on_wish_list"/>
         <many-to-one field="user" target-entity="User">
             <join-column name="user_id" referenced-column-name="id" />
         </many-to-one>

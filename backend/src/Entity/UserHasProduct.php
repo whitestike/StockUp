@@ -7,6 +7,7 @@ class UserHasProduct
         private string $id,
         private User $user,
         private Product $product,
+        private bool $onWishList = false,
         private int $count,
     ) {
 
@@ -22,6 +23,19 @@ class UserHasProduct
         return $this->product;
     }
 
+    public function addToWishList(): void
+    {
+        if($this->count == 0)
+        {
+            $this->onWishList = true;
+        }
+    }
+
+    public function isOnWishList(): bool
+    {
+        return $this->onWishList;
+    }
+
     public function count(): int
     {
         return $this->count;
@@ -29,6 +43,10 @@ class UserHasProduct
 
     public function addToCount(int $amount): void
     {
+        if($this->onWishList)
+        {
+            $this->onWishList = false;
+        }
         $this->count += $amount;
     }
 
@@ -43,6 +61,7 @@ class UserHasProduct
     {
         return array(
             'id' => $this->id,
+            'onWishList' => $this->onWishList,
             'product' => [
                 'name' => $this->product->name(), 
                 'code' => $this->product->code(), 
