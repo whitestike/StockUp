@@ -103,8 +103,12 @@ export default function HomeView({ navigation }) {
                         {show && products.map(product => {
                             return (
                                 <View key={product.id} style={{borderBottomWidth: 1, borderBottomColor: '#204E4A', width: '90%', alignItems: 'flex-start', marginVertical: 7}}>
-                                    <Text style={styles.textSecondaryLight}>{product.product.name}</Text>
-                                    <Text style={styles.textSecondaryLight}>brand: {product.product.brand}</Text>
+                                {(product.onWishList) && 
+                                        <View>
+                                            <Text style={styles.textSecondaryLight}>{product.product.name}</Text>
+                                            <Text style={styles.textSecondaryLight}>brand: {product.product.brand}</Text>
+                                        </View>
+                                    }
                                 </View>
                             );
                         })}
