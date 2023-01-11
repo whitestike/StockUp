@@ -13,6 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\ProductRepository;
 use App\Repository\UserHasProductRepository;
+use App\Repository\TagRepository;
 
 class InventoryController extends AbstractController
 {
@@ -61,14 +62,15 @@ class InventoryController extends AbstractController
     }
 
     #[Route('/api/inventory/get', methods: ['POST'])]
-    public function fetchInventory(Request $request, UserHasProductRepository $userHasProductRepo): Response
+    public function fetchInventory(Request $request, UserHasProductRepository $userHasProductRepo, TagRepository $tagRepo): Response
     {
         $userEmail = json_decode($request->getContent())->email;
         
         $products = $userHasProductRepo->getProductFromUser($userEmail);
+        $tags = $tagRepo->getTagsFromProductArray($products);
 
         $response = new Response();
-        $response->setContent(json_encode(['products' => $products]));
+        $response->setContent(json_encode(['products' => $products, 'tags' => $tags]));
     
         $response->headers->set('Content-Type', 'application/json');
         
@@ -76,14 +78,15 @@ class InventoryController extends AbstractController
     }
 
     #[Route('/api/inventory/toget', methods: ['POST'])]
-    public function fetchProductsToGet(Request $request, UserHasProductRepository $userHasProductRepo): Response
+    public function fetchProductsToGet(Request $request, UserHasProductRepository $userHasProductRepo, TagRepository $tagRepo): Response
     {
         $userEmail = json_decode($request->getContent())->email;
 
         $products = $userHasProductRepo->getProductFromUserWhereAmountIsZero($userEmail);
+        $tags = $tagRepo->getTagsFromProductArray($products);
 
         $response = new Response();
-        $response->setContent(json_encode(['products' => $products]));
+        $response->setContent(json_encode(['products' => $products, 'tags' => $tags]));
     
         $response->headers->set('Content-Type', 'application/json');
         

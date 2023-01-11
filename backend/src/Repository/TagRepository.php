@@ -43,4 +43,21 @@ class TagRepository extends ServiceEntityRepository
 
         return $returnArray;
     }
+
+    public function getTagsFromProductArray(array $products): array
+    {
+        $entityManager = $this->getEntityManager();
+        $returnArray = array();
+        foreach($products as $product)
+        {
+            $tag = $entityManager->getRepository(Tag::class)->findOneBy(['tagName' => $product['product']['tag']]);
+
+            if(!in_array($tag->tagName(), $returnArray))
+            {
+                array_push( $returnArray, $tag->tagName());
+            }
+        }
+
+        return $returnArray;
+    }
 }
