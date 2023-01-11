@@ -67,10 +67,10 @@ class InventoryController extends AbstractController
         $userEmail = json_decode($request->getContent())->email;
         
         $products = $userHasProductRepo->getProductFromUser($userEmail);
-        $tags = $tagRepo->getTagsFromProductArray($products);
+        // $tags = $tagRepo->getTagsFromProductArray($products);
 
         $response = new Response();
-        $response->setContent(json_encode(['products' => $products, 'tags' => $tags]));
+        $response->setContent(json_encode(['products' => $products]));
     
         $response->headers->set('Content-Type', 'application/json');
         

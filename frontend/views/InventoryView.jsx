@@ -26,18 +26,6 @@ export default function InventoryView({ navigation }) {
         Poppins_bold: require('../assets/fonts/Poppins-SemiBold.ttf'),
     });
 
-    async function getTags(){
-        const token = await AsyncStorage.getItem( '@token' );
-
-        let response = await axios.post('http://139.144.72.93:8000/api/tags/get', {}, {
-            headers: {
-                'Authorization': 'Bearer ' + token,
-            }
-        })
-
-        setTags(response.data.tags);
-    }
-
     async function getProducts(){
         const email = await AsyncStorage.getItem( '@email' );
         const token = await AsyncStorage.getItem( '@token' );
@@ -59,6 +47,7 @@ export default function InventoryView({ navigation }) {
         });
 
         setProducts(returnProducts);
+        setTags(response.data.tags);
         setShow(true);
         setRefreshing(false);
     }
@@ -85,13 +74,11 @@ export default function InventoryView({ navigation }) {
         setFilter('');
         getToken();
         getProducts();
-        getTags();
     }, []);
 
     useEffect(() => {
         getToken();
         getProducts();
-        getTags();
     }, []);
 
     const handleRemove = async() => {
