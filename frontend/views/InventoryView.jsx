@@ -2,7 +2,6 @@ import { Text, TextInput, Pressable, View, SafeAreaView, StatusBar, RefreshContr
 import React, { useState, useEffect } from 'react';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import SelectDropdown from 'react-native-select-dropdown'
 
 import { useFonts } from 'expo-font';
 
@@ -30,10 +29,9 @@ export default function InventoryView({ navigation }) {
     async function getTags(){
         const token = await AsyncStorage.getItem( '@token' );
 
-        let response = await axios.post('http://139.144.72.93:8000/api/tags/get', {
+        let response = await axios.post('http://139.144.72.93:8000/api/tags/get', {}, {
             headers: {
                 'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
             }
         })
 
@@ -87,11 +85,13 @@ export default function InventoryView({ navigation }) {
         setFilter('');
         getToken();
         getProducts();
+        getTags();
     }, []);
 
     useEffect(() => {
         getToken();
         getProducts();
+        getTags();
     }, []);
 
     const handleRemove = async() => {
@@ -138,21 +138,34 @@ export default function InventoryView({ navigation }) {
                     </View>
                     <View style={{ height: "90%", alignItems: 'center'}}>
                         <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-                            {show && products.map(product => {
-                                return (
-                                    <View key={product.id} style={styles.productCard}>
-                                        <View>
-                                            <View style={styles.containerProductText}><Text style={styles.textLabel}>name</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.name}</Text></View>
-                                            <View style={styles.containerProductText}><Text style={styles.textLabel}>brand</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.brand}</Text></View>
-                                            <View style={styles.containerProductText}><Text style={styles.textLabel}>count</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.count}</Text></View>
+                            {show && 
+                                tags.map(tag => {
+                                    return (
+                                        <View key={tag.id} style={{width: '100%', alignItems: 'center'}}>
+                                            <Text style={styles.textLabel}>{tag.name}</Text>
+                                            {products.map(product => {
+                                                return (
+                                                    <View key={product.id} style={{width: '100%', alignItems: 'center'}}>
+                                                        {(product.product.tag == tag.name) && 
+                                                            <View style={styles.productCard}>
+                                                                <View>
+                                                                    <View style={styles.containerProductText}><Text style={styles.textLabel}>name</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.name}</Text></View>
+                                                                    <View style={styles.containerProductText}><Text style={styles.textLabel}>brand</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.brand}</Text></View>
+                                                                    <View style={styles.containerProductText}><Text style={styles.textLabel}>count</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.count}</Text></View>
+                                                                </View>
+                                                                <Pressable style={styles.removeButton} onPress={async () => {
+                                                                    setSelectedProduct(product);
+                                                                    setRemoveModalShow(true);
+                                                                }}><Text style={[styles.textLight, {fontSize: 14}]}>Remove</Text></Pressable>
+                                                            </View>
+                                                        }
+                                                    </View>
+                                                );
+                                            })}
                                         </View>
-                                        <Pressable style={styles.removeButton} onPress={async () => {
-                                            setSelectedProduct(product);
-                                            setRemoveModalShow(true);
-                                        }}><Text style={[styles.textLight, {fontSize: 14}]}>Remove</Text></Pressable>
-                                    </View>
-                                );
-                            })}
+                                    );
+                                })
+                            }
                         </View>
                     </View>
                     <Pressable style={styles.button} onPress={() => { getProducts(); }}>
