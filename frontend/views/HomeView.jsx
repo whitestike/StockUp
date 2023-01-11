@@ -6,6 +6,8 @@ import { useFonts } from 'expo-font';
 
 import styles from '../Styles/styles';
 
+import ProductListModal from '../Components/ProductListModal';
+
 import axios from 'axios';
 
 export default function HomeView({ navigation }) {
@@ -13,6 +15,7 @@ export default function HomeView({ navigation }) {
     const [products, setProducts] = useState(false);
     const [show, setShow] = useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
+    const [addToWishlist, setAddToWishlist] = React.useState(false);
 
     const [loaded] = useFonts({
         Poppins: require('../assets/fonts/Poppins-Medium.ttf'),
@@ -93,6 +96,9 @@ export default function HomeView({ navigation }) {
                     <Pressable style={styles.button2} onPress={() => navigation.navigate('Scanner')}>
                         <Text style={styles.text}>Scanner</Text>
                     </Pressable>
+                    <Pressable style={styles.button2} onPress={() => setAddToWishlist(true)}>
+                        <Text style={styles.text}>Add to wishlist</Text>
+                    </Pressable>
                 </View>
                 <View style={styles.titleContainer}>
                         <Text style={styles.title2}>Items you need</Text>
@@ -114,7 +120,11 @@ export default function HomeView({ navigation }) {
                         })}
                     </View>
                 </View>
-            </ScrollView>
+
+            </ScrollView> 
+            {addToWishlist &&
+                <ProductListModal products={products}/>
+            }
         </SafeAreaView>
     );
 }

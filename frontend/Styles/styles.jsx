@@ -171,8 +171,19 @@ const styles = StyleSheet.create({
         color: '#0F2D2A',
         borderBottomWidth: 1,
         borderBottomColor: '#0F2D2A'
+    },
+    basicModal: {
+        position: 'absolute',
+        alignSelf: 'center',
+        borderRadius: 10,
+        width: '90%',
+        height: '90%',
+        backgroundColor: 'white',
+        elevation: 20,
+        shadowOffset: {width: -2, height: 4},
+        shadowColor: 'black',
+        alignItems: 'center',
     }
-
 });
 
 export default styles;
