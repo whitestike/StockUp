@@ -100,7 +100,7 @@ class InventoryController extends AbstractController
         $userEmail = $content->email;
 
 
-        $products = $userHasProductRepo->addToWishList($userEmail);
+    $products = $userHasProductRepo->addItemToWishlist($userEmail);
         $tags = $tagRepo->getTagsFromProductArray($products);
 
         $response = new Response();

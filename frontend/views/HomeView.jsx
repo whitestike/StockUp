@@ -13,6 +13,7 @@ import axios from 'axios';
 export default function HomeView({ navigation }) {
     const [name, setName] = useState(false);
     const [products, setProducts] = useState(false);
+    const [wishList, setWishList] = useState(false);
     const [show, setShow] = useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
     const [addToWishlist, setAddToWishlist] = React.useState(false);
@@ -54,14 +55,17 @@ export default function HomeView({ navigation }) {
         })
 
         returnProducts = [];
+        returnWishList = [];
         response.data.products.forEach(product => {
-            if(product.onWishList)
-            {
+            if(product.onWishList){
                 returnProducts.push(product);
+            }else{
+                returnWishList.push(product);
             }
         });
 
         setProducts(returnProducts);
+        setWishList(returnWishList);
         setShow(true);
         setRefreshing(false);
     }
@@ -128,11 +132,11 @@ export default function HomeView({ navigation }) {
                             );
                         })}
                     </View>
-                </View>
+                </View> 
 
             </ScrollView> 
             {addToWishlist &&
-                <ProductListModal products={products}/>
+                <ProductListModal products={wishList} handleBack={() => setAddToWishlist(false) }/>
             }
         </SafeAreaView>
     );
