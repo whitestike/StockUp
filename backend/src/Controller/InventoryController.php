@@ -103,7 +103,6 @@ class InventoryController extends AbstractController
         $products = $userHasProductRepo->addItemToWishlist($userEmail, $code);
 
         $response = new Response();
-        $response->setContent(json_encode(['products' => $products, 'tags' => $tags]));
     
         $response->headers->set('Content-Type', 'application/json');
         
