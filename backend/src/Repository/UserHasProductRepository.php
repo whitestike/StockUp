@@ -97,7 +97,7 @@ class UserHasProductRepository extends ServiceEntityRepository
         $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
         $user = $entityManager->getRepository(User::class)->findOneBy(["email" => $email]);
         $userHasProduct = $entityManager->getRepository(UserHasProduct::class)->findOneBy(['user' => $user, 'product' => $product]);
-        $userHasProduct->addToWishList();
+        $userHasProduct->removeFromWishList();
         $entityManager->persist($userHasProduct);
         $entityManager->flush();
     }

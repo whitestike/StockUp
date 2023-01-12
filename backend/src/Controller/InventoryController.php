@@ -116,7 +116,7 @@ class InventoryController extends AbstractController
         $userEmail = $content->email;
         $code = $content->code;
 
-        $products = $userHasProductRepo->addItemToWishlist($userEmail, $code);
+        $products = $userHasProductRepo->removeItemFromWishlist($userEmail, $code);
 
         $response = new Response();
     
