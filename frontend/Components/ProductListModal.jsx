@@ -30,7 +30,10 @@ export default function ProductListModal(props){
                         <View style={{width: '100%'}}>
                             <View style={styles.containerProductText}><Text style={styles.textLabel}>name</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.name}</Text></View>
                             <View style={styles.containerProductText}><Text style={styles.textLabel}>brand</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.brand}</Text></View>
-                            <Pressable style={styles.removeButton} onPress={async () => handleAddToWishlist(product) }><Text style={[styles.textLight, {fontSize: 14}]}>Add</Text></Pressable>
+                            <Pressable style={styles.removeButton} onPress={() => {
+                                handleAddToWishlist(product);
+                                props.onRefresh();
+                            } }><Text style={[styles.textLight, {fontSize: 14}]}>{props.buttonText}</Text></Pressable>
                         </View>
                     </View>
                 );

@@ -43,6 +43,18 @@ export default function HomeView({ navigation }) {
         await AsyncStorage.setItem( '@token', response.data.token);
     }
 
+    async function handleRemoveFromWishlist(product){
+        const email = await AsyncStorage.getItem( '@email' );
+        const token = await AsyncStorage.getItem( '@token' );
+
+        let response = await axios.post('http://139.144.72.93:8000/api/wishlist/remove', { email: email, code: product.product.code}, {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
     async function getProducts(){
         const email = await AsyncStorage.getItem( '@email' );
         const token = await AsyncStorage.getItem( '@token' );
@@ -114,7 +126,7 @@ export default function HomeView({ navigation }) {
                     </Pressable>
                 </View>
                 <View style={styles.titleContainer}>
-                        <Text style={styles.title2}>Items you need</Text>
+                        <Text style={styles.title2}>Wishlist</Text>
                         <View style={styles.line}></View>
                 </View>
                 <View style={{ height: "90%", alignItems: 'center'}}>
@@ -122,12 +134,12 @@ export default function HomeView({ navigation }) {
                         {show && products.map(product => {
                             return (
                                 <View key={product.id} style={{borderBottomWidth: 1, borderBottomColor: '#204E4A', width: '90%', alignItems: 'flex-start', marginVertical: 7}}>
-                                {(product.onWishList) && 
-                                        <View>
-                                            <Text style={styles.textSecondaryLight}>{product.product.name}</Text>
-                                            <Text style={styles.textSecondaryLight}>brand: {product.product.brand}</Text>
-                                        </View>
-                                    }
+                                    <Text style={styles.textSecondaryLight}>{product.product.name}</Text>
+                                    <Text style={styles.textSecondaryLight}>brand: {product.product.brand}</Text>
+                                    <Pressable style={styles.removeButton} onPress={() => {
+                                        handleRemoveFromWishlist(product);
+                                        onRefresh();
+                                    } }><Text style={[styles.textLight, {fontSize: 14}]}>Remove</Text></Pressable>
                                 </View>
                             );
                         })}
@@ -136,7 +148,7 @@ export default function HomeView({ navigation }) {
 
             </ScrollView> 
             {addToWishlist &&
-                <ProductListModal products={wishList} handleBack={() => setAddToWishlist(false) }/>
+                <ProductListModal buttonText='Add' onRefresh={onRefresh} products={wishList} handleBack={() => setAddToWishlist(false) }/>
             }
         </SafeAreaView>
     );
