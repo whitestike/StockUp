@@ -52,7 +52,16 @@ export default function HomeView({ navigation }) {
                 'Content-Type': 'application/json'
             }
         })
-        setProducts(response.data.products);
+
+        returnProducts = [];
+        response.data.products.forEach(product => {
+            if(product.onWishList)
+            {
+                returnProducts.push(product);
+            }
+        });
+
+        setProducts(returnProducts);
         setShow(true);
         setRefreshing(false);
     }

@@ -92,4 +92,22 @@ class InventoryController extends AbstractController
         
         return $response;
     }
+
+    #[Route('/api/wishlist/add', methods: ['POST'])]
+    public function addToWishlist(Request $request, UserHasProductRepository $userHasProductRepo, TagRepository $tagRepo): Response
+    {
+        $content = json_decode($request->getContent());
+        $userEmail = $content->email;
+
+
+        $products = $userHasProductRepo->addToWishList($userEmail);
+        $tags = $tagRepo->getTagsFromProductArray($products);
+
+        $response = new Response();
+        $response->setContent(json_encode(['products' => $products, 'tags' => $tags]));
+    
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
+    }
 }
