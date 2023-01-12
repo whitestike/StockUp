@@ -79,6 +79,6 @@ class UserHasProduct
 
     public static function create(User $user, Product $product): self
     {
-        return new self(uniqid(), $user, $product, 0);
+        return new self(uniqid(), $user, $product, false, 0);
     }
 }
