@@ -90,4 +90,15 @@ class UserHasProductRepository extends ServiceEntityRepository
         $entityManager->persist($userHasProduct);
         $entityManager->flush();
     }
+
+    public function removeItemFromWishlist(string $email, string $code): void 
+    {
+        $entityManager = $this->getEntityManager();
+        $product = $entityManager->getRepository(Product::class)->findOneBy(['code' => $code]);
+        $user = $entityManager->getRepository(User::class)->findOneBy(["email" => $email]);
+        $userHasProduct = $entityManager->getRepository(UserHasProduct::class)->findOneBy(['user' => $user, 'product' => $product]);
+        $userHasProduct->addToWishList();
+        $entityManager->persist($userHasProduct);
+        $entityManager->flush();
+    }
 }

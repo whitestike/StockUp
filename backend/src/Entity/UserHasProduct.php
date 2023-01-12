@@ -31,6 +31,11 @@ class UserHasProduct
         }
     }
 
+    public function removeFromWishList(): void
+    {
+        $this->onWishList = false;
+    }
+
     public function isOnWishList(): bool
     {
         return $this->onWishList;
