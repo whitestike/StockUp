@@ -98,9 +98,9 @@ class InventoryController extends AbstractController
     {
         $content = json_decode($request->getContent());
         $userEmail = $content->email;
+        $code = $content->code;
 
-
-    $products = $userHasProductRepo->addItemToWishlist($userEmail);
+        $products = $userHasProductRepo->addItemToWishlist($userEmail, $code);
         $tags = $tagRepo->getTagsFromProductArray($products);
 
         $response = new Response();
