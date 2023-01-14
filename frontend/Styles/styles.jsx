@@ -183,6 +183,26 @@ const styles = StyleSheet.create({
         shadowOffset: {width: -2, height: 4},
         shadowColor: 'black',
         alignItems: 'center',
+    },
+    slide: {
+        height: '100%'
+    },
+    slideTitle: {
+        fontSize: 30,
+        paddingHorizontal: 5,
+        paddingTop: 5,
+        paddingBottom: 5,
+        textAlign: 'center',
+        fontFamily: 'Poppins_light',
+        color: 'white'
+    },
+    slideText: {
+        color: 'white',
+        textAlign: 'center',
+        fontFamily: 'Poppins_light',
+        paddingVertical: 5,
+        paddingHorizontal: 10,
+        fontSize: 18
     }
 });
 

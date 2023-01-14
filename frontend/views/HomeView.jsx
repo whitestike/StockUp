@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Text, Pressable, SafeAreaView, StatusBar, View, RefreshControl, ScrollView} from 'react-native';
+import { Button, Text, Pressable, SafeAreaView, StatusBar, View, RefreshControl, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useFonts } from 'expo-font';
@@ -145,7 +145,6 @@ export default function HomeView({ navigation }) {
                         })}
                     </View>
                 </View> 
-
             </ScrollView> 
             {addToWishlist &&
                 <ProductListModal buttonText='Add' onRefresh={onRefresh} products={wishList} handleBack={() => setAddToWishlist(false) }/>
