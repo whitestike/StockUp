@@ -21,6 +21,14 @@ export default function Scanner({ navigation }) {
   const [createProductVisable, setCreateProductVisable] = useState(false);
   const [amount, setAmount] = useState('1');
 
+  const allowedBarCodes = [
+    BarCodeScanner.Constants.BarCodeType.ean13,
+    BarCodeScanner.Constants.BarCodeType.ean8,
+    BarCodeScanner.Constants.BarCodeType.upc_a,
+    BarCodeScanner.Constants.BarCodeType.upc_e,
+    BarCodeScanner.Constants.BarCodeType.upc_ean,
+  ]
+
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
       const { status } = await BarCodeScanner.requestPermissionsAsync();
@@ -69,6 +77,11 @@ export default function Scanner({ navigation }) {
   }
 
   const fetchProductData = async (data) => {
+    if (!allowedBarCodes.includes(data.type)) {
+      // barcode not allowed, ignore this event'
+      return
+    }
+
     let response = await axios.post('http://139.144.72.93:8000/api/barcode', { code: data.data }, {
       headers: {
         'Authorization': 'Bearer ' + token,
@@ -109,6 +122,7 @@ export default function Scanner({ navigation }) {
         {(!scanned && !createProductVisable && !modalVisable) && <BarCodeScanner
             onBarCodeScanned={scanned ? undefined : fetchProductData}
             style={styles.barcodebox}
+            barCodeTypes={allowedBarCodes}
         />}
 
         {modalVisable && <SafeAreaView style={styles.modalView}>
