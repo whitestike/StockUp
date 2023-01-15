@@ -23,6 +23,7 @@ class UserController extends AbstractController
         $content = json_decode($request->getContent());
         $email = $content->email;
         $password = $content->password;
+        $name = $content->name;
 
         $user = User::create();
 
@@ -33,6 +34,7 @@ class UserController extends AbstractController
 
         $user->setPassword($hashedPassword);
         $user->setEmail($email);
+        $user->setName($name);
 
         $userExists = $UserRepo->save($user);
 
