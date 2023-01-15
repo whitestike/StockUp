@@ -22,11 +22,7 @@ export default function Scanner({ navigation }) {
   const [amount, setAmount] = useState('1');
 
   const allowedBarCodes = [
-    BarCodeScanner.Constants.BarCodeType.ean13,
-    BarCodeScanner.Constants.BarCodeType.ean8,
-    BarCodeScanner.Constants.BarCodeType.upc_a,
-    BarCodeScanner.Constants.BarCodeType.upc_e,
-    BarCodeScanner.Constants.BarCodeType.upc_ean,
+    BarCodeScanner.Constants.BarCodeType.qr,
   ]
 
   useEffect(() => {
@@ -77,8 +73,9 @@ export default function Scanner({ navigation }) {
   }
 
   const fetchProductData = async (data) => {
-    if (!allowedBarCodes.includes(data.type)) {
+    if (allowedBarCodes.includes(data.type)) {
       // barcode not allowed, ignore this event'
+      alert(data.type);
       return
     }
 
