@@ -11,9 +11,11 @@ import ProductListModal from '../Components/ProductListModal';
 import axios from 'axios';
 
 export default function HomeView({ navigation }) {
-    const [name, setName] = useState(false);
-    const [products, setProducts] = useState(false);
-    const [wishList, setWishList] = useState(false);
+    const [name, setName] = useState('');
+    const [products, setProducts] = useState([]);
+    const [tags, setTags] = useState([]);
+    const [wishlistTags, setWishlistTags] = useState([]);
+    const [wishList, setWishList] = useState([]);
     const [show, setShow] = useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
     const [addToWishlist, setAddToWishlist] = React.useState(false);
@@ -24,7 +26,7 @@ export default function HomeView({ navigation }) {
         Poppins_bold: require('../assets/fonts/Poppins-SemiBold.ttf'),
     });
 
-    async function getToken(){
+    const getToken = async () => {
     
         const email = await AsyncStorage.getItem( '@email' );
         const password = await AsyncStorage.getItem( '@password' );
@@ -43,7 +45,19 @@ export default function HomeView({ navigation }) {
         await AsyncStorage.setItem( '@token', response.data.token);
     }
 
-    async function handleRemoveFromWishlist(product){
+    const handleAddToWishlist = async (product) => {
+        const email = await AsyncStorage.getItem( '@email' );
+        const token = await AsyncStorage.getItem( '@token' );
+
+        let response = await axios.post('http://139.144.72.93:8000/api/wishlist/add', { email: email, code: product.product.code}, {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        })
+    }
+
+    const handleRemoveFromWishlist = async (product) => {
         const email = await AsyncStorage.getItem( '@email' );
         const token = await AsyncStorage.getItem( '@token' );
 
@@ -55,7 +69,7 @@ export default function HomeView({ navigation }) {
         })
     }
 
-    async function getProducts(){
+    const getProducts = async () => {
         const email = await AsyncStorage.getItem( '@email' );
         const token = await AsyncStorage.getItem( '@token' );
 
@@ -66,22 +80,33 @@ export default function HomeView({ navigation }) {
             }
         })
 
-        returnProducts = [];
-        returnWishList = [];
+        let returnProducts = [];
+        let returnWishList = [];
+        let returnWishlistTags = [];
+        let returnTags = [];
         response.data.products.forEach(product => {
             if(product.onWishList){
-                returnProducts.push(product);
-            }else{
                 returnWishList.push(product);
+                if(!returnWishlistTags.includes(product.product.tag))
+                {
+                    returnWishlistTags.push(product.product.tag);
+                }
+            }else{
+                returnProducts.push(product);
+                if(!returnTags.includes(product.product.tag))
+                {
+                    returnTags.push(product.product.tag);
+                }
             }
         });
 
+        setTags(returnTags);
+        setWishlistTags(returnWishlistTags);
         setProducts(returnProducts);
         setWishList(returnWishList);
         setShow(true);
         setRefreshing(false);
     }
-
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
@@ -94,9 +119,9 @@ export default function HomeView({ navigation }) {
         getProducts();
     }, []);
 
-    if (!loaded) {
+    {if (!loaded) {
         return null;
-    }
+    }}
 
     return (
         <SafeAreaView style={{height: '100%', marginTop: 5, backgroundColor:"white", position: 'relative'}}>
@@ -131,23 +156,18 @@ export default function HomeView({ navigation }) {
                 </View>
                 <View style={{ height: "90%", alignItems: 'center'}}>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-                        {show && products.map(product => {
-                            return (
-                                <View key={product.id} style={{borderBottomWidth: 1, borderBottomColor: '#204E4A', width: '90%', alignItems: 'flex-start', marginVertical: 7}}>
-                                    <Text style={styles.textSecondaryLight}>{product.product.name}</Text>
-                                    <Text style={styles.textSecondaryLight}>brand: {product.product.brand}</Text>
-                                    <Pressable style={styles.removeButton} onPress={() => {
-                                        handleRemoveFromWishlist(product);
-                                        onRefresh();
-                                    } }><Text style={[styles.textLight, {fontSize: 14}]}>Remove</Text></Pressable>
-                                </View>
-                            );
-                        })}
+                        {show && 
+                            <ProductListModal buttonText='Remove' buttonFunction={handleRemoveFromWishlist} onRefresh={onRefresh} tags={wishlistTags} products={wishList}/>
+                        }
                     </View>
                 </View> 
             </ScrollView> 
             {addToWishlist &&
-                <ProductListModal buttonText='Add' onRefresh={onRefresh} products={wishList} handleBack={() => setAddToWishlist(false) }/>
+                <View style={styles.basicModal}>
+                    <Text style={{ borderBottomWidth: 1, borderBottomColor: 'black', fontSize: 22, fontFamily: 'Poppins_light', textAlign: 'center', width: '100%', marginVertical: 15}}>Add items to your wishlist</Text>
+                    <ProductListModal buttonText='Add' buttonFunction={handleAddToWishlist} onRefresh={onRefresh} tags={tags} products={products}/>
+                    <Pressable style={[styles.button2, {position: 'absolute', bottom: 10}]} onPress={() => setAddToWishlist(false)}><Text style={styles.text}>Exit</Text></Pressable>
+                </View>
             }
         </SafeAreaView>
     );
