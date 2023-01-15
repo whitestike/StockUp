@@ -6,7 +6,7 @@ import { useFonts } from 'expo-font';
 
 import styles from '../Styles/styles';
 
-import ProductListModal from '../Components/ProductListModal';
+import ProductList from '../Components/ProductList';
 
 import axios from 'axios';
 
@@ -157,16 +157,16 @@ export default function HomeView({ navigation }) {
                 <View style={{ height: "90%", alignItems: 'center'}}>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
                         {show && 
-                            <ProductListModal buttonText='Remove' buttonFunction={handleRemoveFromWishlist} onRefresh={onRefresh} tags={wishlistTags} products={wishList}/>
+                            <ProductList buttonText='Remove' buttonFunction={handleRemoveFromWishlist} onRefresh={onRefresh} tags={wishlistTags} products={wishList}/>
                         }
                     </View>
                 </View> 
             </ScrollView> 
             {addToWishlist &&
                 <View style={styles.basicModal}>
-                    <Text style={{ borderBottomWidth: 1, borderBottomColor: 'black', fontSize: 22, fontFamily: 'Poppins_light', textAlign: 'center', width: '100%', marginVertical: 15}}>Add items to your wishlist</Text>
-                    <ProductListModal buttonText='Add' buttonFunction={handleAddToWishlist} onRefresh={onRefresh} tags={tags} products={products}/>
-                    <Pressable style={[styles.button2, {position: 'absolute', bottom: 10}]} onPress={() => setAddToWishlist(false)}><Text style={styles.text}>Exit</Text></Pressable>
+                    <Text style={{ borderBottomWidth: 1, borderBottomColor: 'black', fontSize: 26, fontFamily: 'Poppins_bold', textAlign: 'center', width: '100%', marginVertical: 15}}>Add items to your wishlist</Text>
+                    <ProductList buttonText='Add' buttonFunction={handleAddToWishlist} onRefresh={onRefresh} tags={tags} products={products}/>
+                    <Pressable style={[styles.button2, {position: 'absolute', bottom: -50}]} onPress={() => setAddToWishlist(false)}><Text style={styles.text}>Exit</Text></Pressable>
                 </View>
             }
         </SafeAreaView>

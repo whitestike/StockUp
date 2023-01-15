@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
     textLabel2: {
         fontFamily: 'Poppins_bold',
         fontSize: 20,
-        marginLeft:  17,
         color: '#0F2D2A',
         borderBottomWidth: 1,
         borderBottomColor: '#0F2D2A'
@@ -203,7 +202,7 @@ const styles = StyleSheet.create({
         paddingVertical: 5,
         paddingHorizontal: 10,
         fontSize: 18
-    }
+    },
 });
 
 export default styles;

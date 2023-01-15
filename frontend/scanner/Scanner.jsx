@@ -63,7 +63,7 @@ export default function Scanner({ navigation }) {
   }
 
   const handleCreateProduct = async () => {
-    let response = await axios.post('http://139.144.72.93:8000/api/product/add', { name: product ,code: code, brand: brand , tag: tag}, {
+    await axios.post('http://139.144.72.93:8000/api/product/add', { name: product ,code: code, brand: brand , tag: tag}, {
       headers: {
         'Authorization': 'Bearer ' + token,
       }
@@ -73,6 +73,7 @@ export default function Scanner({ navigation }) {
   }
 
   const fetchProductData = async (data) => {
+    setScanned(true);
     if (allowedBarCodes.includes(data.type)) {
       // barcode not allowed, ignore this event'
       alert(data.type);
@@ -91,6 +92,7 @@ export default function Scanner({ navigation }) {
     else if(response.data.product.name == 'no product linked to code')
     {
       setCode(response.data.product.code);
+      setScanned(false);
       setCreateProductVisable(true);
     }
     else
@@ -129,7 +131,7 @@ export default function Scanner({ navigation }) {
           </Pressable> 
         </SafeAreaView>}
 
-        {scanned && <SafeAreaView style={styles.modalView}>
+        {(!createProductVisable && scanned) && <SafeAreaView style={styles.modalView}>
           <ScanCard productName={code}/>
           <ScanCard productName={product}/>
           <ScanCard productName={brand}/>
