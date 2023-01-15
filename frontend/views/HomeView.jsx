@@ -134,14 +134,6 @@ export default function HomeView({ navigation }) {
                 }
             >
                 <StatusBar backgroundColor='#204E4A'/>
-                {/* <Pressable style={{ paddingLeft: 10, width: "50%", justifyContent: 'center'}} onPress={async () => {
-                    await AsyncStorage.removeItem( '@email' );
-                    await AsyncStorage.removeItem( '@password' );
-                    navigation.navigate('Login')
-                }}>
-                    <Text style={{  color: '#0F2D2A', fontSize:16, fontFamily: 'Poppins_light', lineHeight: 18}}>Hello</Text>
-                    <Text style={{  color: '#0F2D2A', fontSize:16, fontFamily: 'Poppins_bold', lineHeight: 18}}>{name}</Text>
-                </Pressable> */}
                 <View style={styles.titleContainer}>
                         <Text style={styles.title}>Wishlist</Text>
                         <View style={styles.line}></View>

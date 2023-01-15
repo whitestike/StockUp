@@ -101,8 +101,17 @@ export default function InventoryView({ navigation }) {
     }
 
     return(
-        <SafeAreaView>
+        <SafeAreaView style={{backgroundColor: 'white'}}>
             <StatusBar backgroundColor='#204E4A'/>
+            <View style={{width: '100%', alignItems: 'flex-end'}}>
+                <Pressable style={styles.button2} onPress={async () => {
+                    await AsyncStorage.removeItem( '@email' );
+                    await AsyncStorage.removeItem( '@password' );
+                    navigation.navigate('Login')
+                }}>
+                    <Text style={styles.text}>Logout</Text>
+                </Pressable>
+            </View>
             <ScrollView style={{ height: '100%', backgroundColor:"white", position: 'relative' }} refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> }>
                 {!removeModalShow && 
                 <View>
