@@ -24,6 +24,10 @@ class UserController extends AbstractController
         $email = $content->email;
         $password = $content->password;
         $name = $content->name;
+        if($name == null)
+        {
+            $name = 'name';
+        }
 
         $user = User::create();
 
