@@ -69,8 +69,8 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        width: '85%',
-        justifyContent: 'center'
+        width: '100%',
+        justifyContent: 'flex-start'
     },
     headerText: {
         fontSize: 22,
@@ -203,6 +203,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         fontSize: 18
     },
+    homeScreenButton: {
+        width: '50%',
+        backgroundColor: '#204E4A',
+        alignitems: 'center',
+        paddingVertical: 10,
+    }
 });
 
 export default styles;

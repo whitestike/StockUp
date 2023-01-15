@@ -134,22 +134,14 @@ export default function HomeView({ navigation }) {
                 }
             >
                 <StatusBar backgroundColor='#204E4A'/>
-                <Pressable style={{ paddingLeft: 10, width: "50%", justifyContent: 'center'}} onPress={async () => {
+                {/* <Pressable style={{ paddingLeft: 10, width: "50%", justifyContent: 'center'}} onPress={async () => {
                     await AsyncStorage.removeItem( '@email' );
                     await AsyncStorage.removeItem( '@password' );
                     navigation.navigate('Login')
                 }}>
                     <Text style={{  color: '#0F2D2A', fontSize:16, fontFamily: 'Poppins_light', lineHeight: 18}}>Hello</Text>
                     <Text style={{  color: '#0F2D2A', fontSize:16, fontFamily: 'Poppins_bold', lineHeight: 18}}>{name}</Text>
-                </Pressable>
-                <View style={{position: 'absolute', top: 0, right: 5}}>
-                    <Pressable style={styles.button2} onPress={() => navigation.navigate('Scanner')}>
-                        <Text style={styles.text}>Scanner</Text>
-                    </Pressable>
-                    <Pressable style={styles.button2} onPress={() => setAddToWishlist(true)}>
-                        <Text style={styles.text}>Add to wishlist</Text>
-                    </Pressable>
-                </View>
+                </Pressable> */}
                 <View style={styles.titleContainer}>
                         <Text style={styles.title2}>Wishlist</Text>
                         <View style={styles.line}></View>
@@ -161,7 +153,15 @@ export default function HomeView({ navigation }) {
                         }
                     </View>
                 </View> 
-            </ScrollView> 
+            </ScrollView>
+            <View style={{flexDirection: 'row', width: '100%', justifyContent: 'space-around', marginBottom: 5}}>
+                <Pressable style={styles.homeScreenButton} onPress={() => navigation.navigate('Scanner')}>
+                    <Text style={[styles.text, {textAlign: 'center'}]}>Scanner</Text>
+                </Pressable>
+                <Pressable style={[styles.homeScreenButton, {borderLeftColor: '#0F2D2A', borderLeftWidth: 1}]} onPress={() => setAddToWishlist(true)}>
+                    <Text style={[styles.text, {textAlign: 'center'}]}>Add to wishlist</Text>
+                </Pressable>
+            </View>
             {addToWishlist &&
                 <View style={styles.basicModal}>
                     <Text style={{ borderBottomWidth: 1, borderBottomColor: 'black', fontSize: 26, fontFamily: 'Poppins_bold', textAlign: 'center', width: '100%', marginVertical: 15}}>Add items to your wishlist</Text>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import styles from './Styles/styles';
 
-import { Text, View, Image } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { useFonts } from 'expo-font';
 
@@ -20,6 +20,7 @@ import Scanner from './scanner/Scanner';
 import HomeView from './views/HomeView';
 import LoginView from './views/LoginView';
 import InventoryView from './views/InventoryView';
+import Header from './Components/Header';
 
 import AppIntroSlider from 'react-native-app-intro-slider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -109,24 +110,9 @@ export default function App() {
   return ( 
     <NavigationContainer style={styles.container}>
       <Stack.Navigator initialRouteName="HomeScreen">
-        <Stack.Screen options={{headerStyle: { backgroundColor: '#204E4A'}, headerLeft: () => {
-          return (
-          <View style={styles.header}>
-            <Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_bold', textAlign: 'right'}}>Stock</Text><Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_light', textAlign: 'left'}}>Up</Text>
-          </View>);
-        }}} name="HomeScreen" component={Home} />
-        <Stack.Screen options={{headerStyle: { backgroundColor: '#204E4A'}, headerTitle: () => null, headerLeft: () => {
-          return (
-          <View style={styles.header}>
-            <Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_bold', textAlign: 'right'}}>Stock</Text><Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_light', textAlign: 'left'}}>Up</Text>
-          </View>);
-        }}} name="Login" component={LoginView} />
-        <Stack.Screen options={{headerStyle: { backgroundColor: '#204E4A'}, headerTitle: () => {
-          return (
-          <View style={styles.header}>
-            <Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_bold', textAlign: 'right'}}>Stock</Text><Text style={{ fontSize: 24, color: 'white', fontFamily: 'Poppins_light', textAlign: 'left'}}>Up</Text>
-          </View>);
-        }}} name="Scanner" component={Scanner} />
+        <Stack.Screen options={{headerStyle: { backgroundColor: '#204E4A'}, headerTitle: () => null, headerLeft: () => {return <Header/>}}} name="HomeScreen" component={Home} />
+        <Stack.Screen options={{headerStyle: { backgroundColor: '#204E4A'}, headerTitle: () => null, headerLeft: () => {return <Header/>}}} name="Login" component={LoginView} />
+        <Stack.Screen options={{headerStyle: { backgroundColor: '#204E4A'}, headerTitle: () => {return <Header/>}}} name="Scanner" component={Scanner} />
       </Stack.Navigator>
     </NavigationContainer>
   );
