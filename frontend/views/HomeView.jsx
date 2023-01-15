@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Text, Pressable, SafeAreaView, StatusBar, View, RefreshControl, ScrollView} from 'react-native';
+import { Text, Pressable, SafeAreaView, StatusBar, View, RefreshControl, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useFonts } from 'expo-font';
@@ -49,7 +49,7 @@ export default function HomeView({ navigation }) {
         const email = await AsyncStorage.getItem( '@email' );
         const token = await AsyncStorage.getItem( '@token' );
 
-        let response = await axios.post('http://139.144.72.93:8000/api/wishlist/add', { email: email, code: product.product.code}, {
+        await axios.post('http://139.144.72.93:8000/api/wishlist/add', { email: email, code: product.product.code}, {
             headers: {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json'
@@ -61,7 +61,7 @@ export default function HomeView({ navigation }) {
         const email = await AsyncStorage.getItem( '@email' );
         const token = await AsyncStorage.getItem( '@token' );
 
-        let response = await axios.post('http://139.144.72.93:8000/api/wishlist/remove', { email: email, code: product.product.code}, {
+        await axios.post('http://139.144.72.93:8000/api/wishlist/remove', { email: email, code: product.product.code}, {
             headers: {
                 'Authorization': 'Bearer ' + token,
                 'Content-Type': 'application/json'
@@ -143,7 +143,7 @@ export default function HomeView({ navigation }) {
                     <Text style={{  color: '#0F2D2A', fontSize:16, fontFamily: 'Poppins_bold', lineHeight: 18}}>{name}</Text>
                 </Pressable> */}
                 <View style={styles.titleContainer}>
-                        <Text style={styles.title2}>Wishlist</Text>
+                        <Text style={styles.title}>Wishlist</Text>
                         <View style={styles.line}></View>
                 </View>
                 <View style={{ height: "90%", alignItems: 'center'}}>
