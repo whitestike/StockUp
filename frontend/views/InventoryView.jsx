@@ -109,23 +109,10 @@ export default function InventoryView({ navigation }) {
     return(
         <SafeAreaView style={{backgroundColor: 'white'}}>
             <StatusBar backgroundColor='#204E4A'/>
-            <View style={{width: '100%', alignItems: 'flex-end'}}>
-                <Pressable style={styles.button2} onPress={async () => {
-                    await AsyncStorage.removeItem( '@email' );
-                    await AsyncStorage.removeItem( '@password' );
-                    navigation.navigate('Login')
-                }}>
-                    <Text style={styles.text}>Logout</Text>
-                </Pressable>
-            </View>
             <ScrollView style={{ height: '100%', backgroundColor:"white", position: 'relative' }} refreshControl={ <RefreshControl refreshing={refreshing} onRefresh={onRefresh} /> }>
                 {!removeModalShow && 
-                <View>
-                    <View style={styles.titleContainer}>
-                        <Text style={styles.title}>Inventory</Text>
-                        <View style={styles.line}></View>
-                    </View>
-                    <View style={{ padding: 5, flexDirection: 'row', alignItems: 'center',justifyContent: 'space-between', marginLeft: '47%', marginBottom: 15, width: '50%', borderRadius: 10, backgroundColor: '#204E4A'}}>
+                <View style={{position: 'relative'}}>
+                    <View style={{ top: 15, right: 5, padding: 5,position: 'absolute', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '50%', borderRadius: 10, backgroundColor: '#204E4A'}}>
                         <TextInput
                             style={{width: '80%', color: 'white', fontFamily: 'Poppins_light'}}
                             value={filter}
@@ -138,13 +125,16 @@ export default function InventoryView({ navigation }) {
                             <SearchSvg/>
                         </Pressable>
                     </View>
+                    <View style={styles.titleContainer}>
+                        <Text style={styles.title}>Inventory</Text>
+                    </View>
                     <View style={{ height: "100%", alignItems: 'center'}}>
                         <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
                             {show &&
                                 <ProductList 
                                     emptyMessage={
                                         <View style={{ alignItems: 'center', marginTop: 100}}>
-                                            <Text style={styles.textDarkBig}>You have not items in your inventory</Text>
+                                            <Text style={styles.textDarkBig}>No items found in inventory</Text>
                                             <Text style={styles.textDarkBig}>Try the scanner to add them</Text>
                                             <Pressable style={styles.homeScreenButton} onPress={() => navigation.navigate('Scanner')}>
                                                 <Text style={[styles.text, {textAlign: 'center'}]}>Scanner</Text>

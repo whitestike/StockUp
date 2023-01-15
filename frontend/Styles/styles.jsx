@@ -129,9 +129,8 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 30,
-        marginRight: '45%',
-        paddingHorizontal: 5,
-        paddingTop: 5,
+        marginRight: '55%',
+        paddingTop: 10,
         paddingBottom: 5,
         textAlign: 'center',
         fontFamily: 'Poppins_light',
