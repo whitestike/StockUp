@@ -2,12 +2,19 @@ import { Text, Pressable, View, ScrollView } from 'react-native';
 
 import styles from '../Styles/styles';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-
 export default function ProductList(props){
 
     const products = Object.values( props.products );
+
+    if(products.length == 0)
+    {
+        return (
+            <View>
+                {props.emptyMessage}
+            </View>
+        );
+    }
+
     return(
         <ScrollView style={{width: '100%', overflow: 'hidden'}}>
             {props.tags.map(tag => {

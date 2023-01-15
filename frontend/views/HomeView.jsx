@@ -11,7 +11,6 @@ import ProductList from '../Components/ProductList';
 import axios from 'axios';
 
 export default function HomeView({ navigation }) {
-    const [name, setName] = useState('');
     const [products, setProducts] = useState([]);
     const [tags, setTags] = useState([]);
     const [wishlistTags, setWishlistTags] = useState([]);
@@ -34,8 +33,6 @@ export default function HomeView({ navigation }) {
         {
           navigation.navigate('Login');
         }
-
-        setName(email.split('.')[0][0].toUpperCase() + email.split('.')[0].slice(1, email.split('.')[0].length));
   
         let response = await axios.post('http://139.144.72.93:8000/api/login_check', { email: email, password: password },  
           {headers: {
@@ -141,7 +138,16 @@ export default function HomeView({ navigation }) {
                 <View style={{ height: "90%", alignItems: 'center'}}>
                     <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
                         {show && 
-                            <ProductList buttonText='Remove' buttonFunction={handleRemoveFromWishlist} onRefresh={onRefresh} tags={wishlistTags} products={wishList}/>
+                            <ProductList 
+                                emptyMessage={
+                                    <Text style={styles.textDarkBig}>You have to items in your wishlist</Text>
+                                } 
+                                buttonText='Remove' 
+                                buttonFunction={handleRemoveFromWishlist} 
+                                onRefresh={onRefresh} 
+                                tags={wishlistTags} 
+                                products={wishList}
+                            />
                         }
                     </View>
                 </View> 
@@ -157,7 +163,16 @@ export default function HomeView({ navigation }) {
             {addToWishlist &&
                 <View style={styles.basicModal}>
                     <Text style={{ borderBottomWidth: 1, borderBottomColor: 'black', fontSize: 26, fontFamily: 'Poppins_bold', textAlign: 'center', width: '100%', marginVertical: 15}}>Add items to your wishlist</Text>
-                    <ProductList buttonText='Add' buttonFunction={handleAddToWishlist} onRefresh={onRefresh} tags={tags} products={products}/>
+                    <ProductList 
+                        emptyMessage={
+                            <Text style={styles.textDarkBig}>There are no items you need</Text>
+                        }
+                        buttonText='Add' 
+                        buttonFunction={handleAddToWishlist} 
+                        onRefresh={onRefresh} 
+                        tags={tags} 
+                        products={products}
+                    />
                     <Pressable style={[styles.button2, {position: 'absolute', bottom: -50}]} onPress={() => setAddToWishlist(false)}><Text style={styles.text}>Exit</Text></Pressable>
                 </View>
             }

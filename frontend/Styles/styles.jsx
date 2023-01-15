@@ -94,6 +94,12 @@ const styles = StyleSheet.create({
         fontFamily: 'Poppins_light',
         color: '#0F2D2A'
     },
+    textDarkBig: {
+        fontSize: 18,
+        paddingHorizontal: 10,
+        fontFamily: 'Poppins_light',
+        color: '#0F2D2A'
+    },
     textSecondaryLight: {
         fontSize: 16,
         paddingHorizontal: 10,

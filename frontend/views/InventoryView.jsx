@@ -7,6 +7,7 @@ import { useFonts } from 'expo-font';
 
 import styles from '../Styles/styles';
 import SearchSvg from '../Images/search';
+import ProductList from '../Components/ProductList';
 
 import axios from 'axios';
 
@@ -96,6 +97,11 @@ export default function InventoryView({ navigation }) {
         setSelectedProduct(null);
     }
 
+    const handleRemoveProduct = async (product) => {
+        setSelectedProduct(product);
+        setRemoveModalShow(true);
+    }
+
     if (!loaded) {
         return null;
     }
@@ -134,41 +140,27 @@ export default function InventoryView({ navigation }) {
                     </View>
                     <View style={{ height: "100%", alignItems: 'center'}}>
                         <View style={{flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-around'}}>
-                            {show && 
-                                tags.map(tag => {
-                                    return (
-                                        <View key={tag} style={{width: '90%'}}>
-                                            <Text style={styles.textLabel2}>{tag}</Text>
-                                            {products.map(product => {
-                                                return (
-                                                    <View key={product.id} style={{width: '100%', alignItems: 'center'}}>
-                                                        {(product.product.tag == tag) && 
-                                                            <View style={styles.productCard}>
-                                                                <View>
-                                                                    <View style={styles.containerProductText}><Text style={styles.textLabel}>name</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.name}</Text></View>
-                                                                    <View style={styles.containerProductText}><Text style={styles.textLabel}>brand</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.product.brand}</Text></View>
-                                                                    <View style={styles.containerProductText}><Text style={styles.textLabel}>count</Text><Text style={[styles.textDark, {fontSize: 16}]}>{product.count}</Text></View>
-                                                                </View>
-                                                                <Pressable style={styles.removeButton} onPress={async () => {
-                                                                    setSelectedProduct(product);
-                                                                    setRemoveModalShow(true);
-                                                                }}><Text style={[styles.textLight, {fontSize: 14}]}>Remove</Text></Pressable>
-                                                            </View>
-                                                        }
-                                                    </View>
-                                                );
-                                            })}
+                            {show &&
+                                <ProductList 
+                                    emptyMessage={
+                                        <View style={{ alignItems: 'center', marginTop: 100}}>
+                                            <Text style={styles.textDarkBig}>You have not items in your inventory</Text>
+                                            <Text style={styles.textDarkBig}>Try the scanner to add them</Text>
+                                            <Pressable style={styles.homeScreenButton} onPress={() => navigation.navigate('Scanner')}>
+                                                <Text style={[styles.text, {textAlign: 'center'}]}>Scanner</Text>
+                                            </Pressable>
                                         </View>
-                                    );
-                                })
+                                    }
+                                    buttonText='Remove'
+                                    buttonFunction={handleRemoveProduct} 
+                                    onRefresh={onRefresh}
+                                    tags={tags}
+                                    products={products}
+                                />
                             }
                         </View>
                     </View>
-                    <Pressable style={styles.button} onPress={() => { getProducts(); }}>
-                        <Text style={styles.text}>Refresh</Text>
-                    </Pressable>
                 </View>}
-
                 {removeModalShow && 
                     <View style={styles.modalView}>
                         <View style={styles.container}>
