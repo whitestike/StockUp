@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Repository\ProductRepository;
 use App\Repository\UserHasProductRepository;
 use App\Repository\TagRepository;
+use App\Repository\BrandRepository;
 
 class InventoryController extends AbstractController
 {
@@ -124,4 +125,21 @@ class InventoryController extends AbstractController
         
         return $response;
     }
+
+    #[Route('/api/product/info', methods: ['POST'])]
+    public function getCreateProductInfo(Request $request, TagRepository $tagRepo, BrandRepository $brandRepo): Response
+    {
+        $content = json_decode($request->getContent());
+
+        $tags = $tagRepo->getAllTags();
+        $brands = $brandRepo->getAllBrands();
+
+        $response = new Response();
+        $response->setContent(json_encode(['brands' => $brands, 'tags' => $tags]));
+
+        $response->headers->set('Content-Type', 'application/json');
+        
+        return $response;
+    }
+
 }

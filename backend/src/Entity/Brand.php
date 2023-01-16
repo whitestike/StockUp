@@ -25,6 +25,14 @@ class Brand
         return $this->brandName;
     }
     
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->brandName,
+        ];
+    }
+
     public static function create(string $brandName): self
     {
         return new self(uniqid(), $brandName);

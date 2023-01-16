@@ -27,4 +27,20 @@ class BrandRepository extends ServiceEntityRepository
 
         return $brand;
     }
+
+    public function getAllBrands(): array
+    {
+        $entityManager = $this->getEntityManager();
+        $query = $entityManager->createQuery('SELECT b FROM App\Entity\Brand b');
+        $brands = $query->getResult();
+
+        $returnArray = array();
+
+        foreach($brands as $brand)
+        {
+            array_push($returnArray, $brand->toArray());
+        }
+
+        return $returnArray;
+    }
 }
