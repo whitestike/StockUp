@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         alignSelf: 'center',
         borderRadius: 10,
-        width: '90%',
+        width: '95%',
         height: '90%',
         backgroundColor: 'white',
         elevation: 20,

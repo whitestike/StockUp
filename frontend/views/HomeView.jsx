@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Text, Pressable, SafeAreaView, StatusBar, View, RefreshControl, ScrollView} from 'react-native';
+import { TextInput, Text, Pressable, SafeAreaView, StatusBar, View, RefreshControl, ScrollView} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import { useFonts } from 'expo-font';
 
 import styles from '../Styles/styles';
+import SearchSvg from '../Images/search';
 
 import ProductList from '../Components/ProductList';
 
@@ -18,6 +19,7 @@ export default function HomeView({ navigation }) {
     const [show, setShow] = useState(false);
     const [refreshing, setRefreshing] = React.useState(false);
     const [addToWishlist, setAddToWishlist] = React.useState(false);
+    const [filter, setFilter] = React.useState('');
 
     const [loaded] = useFonts({
         Poppins: require('../assets/fonts/Poppins-Medium.ttf'),
@@ -89,10 +91,13 @@ export default function HomeView({ navigation }) {
                     returnWishlistTags.push(product.product.tag);
                 }
             }else{
-                returnProducts.push(product);
-                if(!returnTags.includes(product.product.tag))
+                if(product.product.name.includes(filter))
                 {
-                    returnTags.push(product.product.tag);
+                    returnProducts.push(product);
+                    if(!returnTags.includes(product.product.tag))
+                    {
+                        returnTags.push(product.product.tag);
+                    }
                 }
             }
         });
@@ -162,7 +167,22 @@ export default function HomeView({ navigation }) {
             </View>
             {addToWishlist &&
                 <View style={styles.basicModal}>
-                    <Text style={{ borderBottomWidth: 1, borderBottomColor: 'black', fontSize: 26, fontFamily: 'Poppins_bold', textAlign: 'center', width: '100%', marginVertical: 15}}>Add items to your wishlist</Text>
+                    <View style={{flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: 'black', alignItems: 'center', paddingHorizontal: 5}}>
+                        <Text style={{ fontSize: 22, fontFamily: 'Poppins_bold', textAlign: 'center', width: '50%', marginVertical: 15}}>Add items to your wishlist</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', width: '50%', height: 40, borderRadius: 10, backgroundColor: '#204E4A'}}>
+                            <TextInput
+                                style={{width: '80%', color: 'white', fontFamily: 'Poppins_light'}}
+                                value={filter}
+                                onChangeText={text => {
+                                    setFilter(text);
+                                    getProducts();
+                                }}
+                            />
+                            <Pressable style={{paddingRight: 5}} onPress={() => {getProducts();}}>
+                                <SearchSvg/>
+                            </Pressable>
+                        </View>
+                    </View>
                     <ProductList 
                         emptyMessage={
                             <Text style={styles.textDarkBig}>There are no items you need</Text>
