@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Text, SafeAreaView, TextInput, Pressable} from 'react-native';
+import { Text, SafeAreaView, View, TextInput, Pressable} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import styles from '../Styles/styles';
 
 import ScanCard from '../Components/ScanCard';
+import SugestList from '../Components/SugestList';
 
 import axios from 'axios';
 
@@ -20,6 +21,10 @@ export default function Scanner({ navigation }) {
   const [modalVisable, setModalVisable] = useState(false);
   const [createProductVisable, setCreateProductVisable] = useState(false);
   const [amount, setAmount] = useState('1');
+  const [brands, setBrands] = useState([]);
+  const [tags, setTags] = useState([]);
+  const [filterTags, setFilsterTags] = useState([]);
+  const [filterBrands, setFilterBrands] = useState([]);
 
   const allowedBarCodes = [
     BarCodeScanner.Constants.BarCodeType.qr,
@@ -91,6 +96,14 @@ export default function Scanner({ navigation }) {
     }
     else if(response.data.product.name == 'no product linked to code')
     {
+      let info = await axios.post('http://139.144.72.93:8000/api/product/info', { }, {
+        headers: {
+          'Authorization': 'Bearer ' + token,
+        }
+      })
+
+      setBrands(info.data.brands);
+      setTags(info.data.tags);
       setCode(response.data.product.code);
       setScanned(false);
       setCreateProductVisable(true);
@@ -101,8 +114,39 @@ export default function Scanner({ navigation }) {
       setCode(response.data.product.code);
       setProduct(response.data.product.name);
       setBrand(response.data.product.brand);
+      setTag(response.data.product.tag);
     }
   };
+
+  const updateTag = async (tag) =>{
+    
+    setTag(tag);
+
+    returnTag = [];
+    tags.forEach(newTag => {
+      if(newTag.name.includes(tag))
+      {
+        returnTag.push(newTag);
+      }
+    });
+
+    setFilsterTags(returnTag);
+  }
+
+  const updateBrand = async (brand) =>{
+    
+    setBrand(brand);
+
+    returnBrands = [];
+    brands.forEach(newBrand => {
+      if(newBrand.name.includes(brand))
+      {
+        returnBrands.push(newBrand);
+      }
+    });
+
+    setFilterBrands(returnBrands);
+  }
 
   if (hasPermission === null) {
     return <Text>Requesting for camera permission</Text>;
@@ -159,10 +203,16 @@ export default function Scanner({ navigation }) {
           <Text>code: {code}</Text>
           <Text>Enter product name</Text>
           <TextInput style={styles.input} onChangeText={productName => setProduct(productName)}/>
-          <Text>Enter product brand</Text>
-          <TextInput style={styles.input} onChangeText={productBrand => setBrand(productBrand)}/>
-          <Text>Enter a tag for the product</Text>
-          <TextInput style={styles.input} onChangeText={productTag => setTag(productTag)}/>
+          <View style={{position: 'relative', alignItems: 'center'}}>
+            <Text>Enter product brand</Text>
+            <TextInput onEndEditing={() => setFilterBrands([])} style={styles.input} value={brand} onChangeText={productBrand => updateBrand(productBrand)}/>
+            <SugestList data={filterBrands} onPress={updateBrand}/>
+          </View>
+          <View style={{position: 'relative', alignItems: 'center'}}>
+            <Text>Enter a tag for the product</Text>
+            <TextInput onEndEditing={() => setFilterTags([])} style={styles.input} value={tag} onChangeText={productTag => updateTag(productTag)}/>
+            <SugestList data={filterTags} onPress={updateTag}/>
+          </View>
           <Pressable style={styles.button} onPress={handleCreateProduct}>
             <Text style={styles.text}>Create Product</Text>
           </Pressable>
