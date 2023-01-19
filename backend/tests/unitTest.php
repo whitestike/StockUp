@@ -10,8 +10,8 @@ class NewsletterGeneratorTest extends TestCase
 {
     public function testCreateProduct()
     {
-        $brand = Brand::create("Coca Cola");
-        $tag = Tag::create("Drinks");
+        $brand = Brand::create('Coca Cola');
+        $tag = Tag::create('Drinks');
         $product = Product::create('1234789012348', 'product name', $brand, $tag);
 
         $this->assertEquals( 'product name', $product->name());
