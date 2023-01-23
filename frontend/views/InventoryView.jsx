@@ -78,6 +78,7 @@ export default function InventoryView({ navigation }) {
     }, []);
 
     useEffect(() => {
+        setRefreshing(true);
         getToken();
         getProducts();
     }, []);
