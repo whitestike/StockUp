@@ -23,7 +23,7 @@ export default function Scanner({ navigation }) {
   const [amount, setAmount] = useState('1');
   const [brands, setBrands] = useState([]);
   const [tags, setTags] = useState([]);
-  const [filterTags, setFilsterTags] = useState([]);
+  const [filterTags, setFilterTags] = useState([]);
   const [filterBrands, setFilterBrands] = useState([]);
 
   const allowedBarCodes = [
@@ -68,7 +68,9 @@ export default function Scanner({ navigation }) {
   }
 
   const handleCreateProduct = async () => {
-    await axios.post('http://139.144.72.93:8000/api/product/add', { name: product ,code: code, brand: brand , tag: tag}, {
+    const capitalizedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+    const capitalizedBrand = brand.charAt(0).toUpperCase() + brand.slice(1);
+    await axios.post('http://139.144.72.93:8000/api/product/add', { name: product ,code: code, brand: capitalizedBrand , tag: capitalizedTag}, {
       headers: {
         'Authorization': 'Bearer ' + token,
       }
@@ -118,28 +120,28 @@ export default function Scanner({ navigation }) {
     }
   };
 
-  const updateTag = async (tag) =>{
+  const updateTag = async (_tag) =>{
     
-    setTag(tag);
+    setTag(_tag);
 
-    returnTag = [];
+    let returnTags = [];
     tags.forEach(newTag => {
-      if(newTag.name.includes(tag))
+      if(newTag.name.toLowerCase().match(_tag.toLowerCase()))
       {
-        returnTag.push(newTag);
+        returnTags.push(newTag);
       }
     });
 
-    setFilsterTags(returnTag);
+    setFilterTags(returnTags);
   }
 
-  const updateBrand = async (brand) =>{
+  const updateBrand = async (_brand) =>{
     
-    setBrand(brand);
+    setBrand(_brand);
 
-    returnBrands = [];
+    let returnBrands = [];
     brands.forEach(newBrand => {
-      if(newBrand.name.includes(brand))
+      if(newBrand.name.toLowerCase().match(_brand.toLowerCase()))
       {
         returnBrands.push(newBrand);
       }
@@ -205,12 +207,20 @@ export default function Scanner({ navigation }) {
           <TextInput style={styles.input} onChangeText={productName => setProduct(productName)}/>
           <View style={{position: 'relative', alignItems: 'center'}}>
             <Text>Enter product brand</Text>
-            <TextInput onEndEditing={() => setFilterBrands([])} style={styles.input} value={brand} onChangeText={productBrand => updateBrand(productBrand)}/>
+            <TextInput onEndEditing={() => {
+              setFilterBrands([]);
+              const capitalizedBrand = brand.charAt(0).toUpperCase() + brand.slice(1);
+              setBrand(capitalizedBrand);
+            }} style={styles.input} value={brand} onChangeText={(productBrand) => updateBrand(productBrand)}/>
             <SugestList data={filterBrands} onPress={updateBrand}/>
           </View>
           <View style={{position: 'relative', alignItems: 'center'}}>
             <Text>Enter a tag for the product</Text>
-            <TextInput onEndEditing={() => setFilterTags([])} style={styles.input} value={tag} onChangeText={productTag => updateTag(productTag)}/>
+            <TextInput onEndEditing={() => {
+              setFilterTags([]);
+              const capitalizedTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+              setTag(capitalizedTag);
+              }} style={styles.input} value={tag} onChangeText={(productTag) => updateTag(productTag)}/>
             <SugestList data={filterTags} onPress={updateTag}/>
           </View>
           <Pressable style={styles.button} onPress={handleCreateProduct}>
