@@ -5,6 +5,8 @@ import styles from '../Styles/styles';
 export default function ProductList(props){
 
     const products = Object.values( props.products );
+    let showAmount = false;
+    if(props.showAmount != null){showAmount = props.showAmount;}
 
     if(products.length == 0)
     {
@@ -28,6 +30,9 @@ export default function ProductList(props){
                                         <View key={product.id} style={{borderBottomWidth: 1, borderBottomColor: '#4BC188', width: '90%', alignItems: 'flex-start', marginVertical: 7}}>
                                             <Text style={styles.textSecondaryLight}>{product.product.name}</Text>
                                             <Text style={styles.textSecondaryLight}>brand: {product.product.brand}</Text>
+                                            {showAmount && 
+                                                <Text style={styles.textSecondaryLight}>amount: {product.count}</Text>
+                                            }
                                             <Pressable style={styles.removeButton} onPress={() => { 
                                                 props.buttonFunction(product);
                                                 props.onRefresh();

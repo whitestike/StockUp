@@ -146,6 +146,7 @@ export default function InventoryView({ navigation }) {
                                     onRefresh={onRefresh}
                                     tags={tags}
                                     products={products}
+                                    showAmount={true}
                                 />
                             }
                         </View>
