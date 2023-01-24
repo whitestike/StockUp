@@ -213,6 +213,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#204E4A',
         alignitems: 'center',
         paddingVertical: 10,
+    },
+    logout: {
+        position: 'absolute',
+        top: 15,
+        right: 5,
+        backgroundColor: '#204E4A',
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 4
     }
 });
 

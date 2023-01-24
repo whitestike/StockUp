@@ -50,7 +50,6 @@ export default function InventoryView({ navigation }) {
         setProducts(returnProducts);
         setTags(response.data.tags);
         setShow(true);
-        setRefreshing(false);
     }
 
     async function getToken(){
@@ -75,12 +74,14 @@ export default function InventoryView({ navigation }) {
         setFilter('');
         getToken();
         getProducts();
+        setRefreshing(false);
     }, []);
 
     useEffect(() => {
         setRefreshing(true);
         getToken();
         getProducts();
+        setRefreshing(false);
     }, []);
 
     const handleRemove = async() => {

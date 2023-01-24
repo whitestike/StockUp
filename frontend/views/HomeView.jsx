@@ -107,19 +107,20 @@ export default function HomeView({ navigation }) {
         setProducts(returnProducts);
         setWishList(returnWishList);
         setShow(true);
-        setRefreshing(false);
     }
 
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         getToken();
         getProducts();
+        setRefreshing(false);
     }, []);
 
     useEffect(() => {
         setRefreshing(true);
         getToken();
         getProducts();
+        setRefreshing(false);
     }, []);
 
     {if (!loaded) {
@@ -137,6 +138,11 @@ export default function HomeView({ navigation }) {
                 }
             >
                 <StatusBar backgroundColor='#204E4A'/>
+                <Pressable style={styles.logout} onPress={ async () => {
+                    await AsyncStorage.removeItem( '@password' );
+                    await AsyncStorage.removeItem( '@email' );
+                    onRefresh();
+                }}><Text style={styles.text}>logout</Text></Pressable>
                 <View style={styles.titleContainer}>
                         <Text style={styles.title}>Wishlist</Text>
                         <View style={styles.line}></View>
