@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "frontend",
+    "name": "StockUp",
+    "displayName": "StockUp",
     "slug": "stockup",
     "version": "1.0.0",
     "assetBundlePatterns": [
