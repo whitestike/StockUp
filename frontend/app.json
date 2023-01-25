@@ -3,10 +3,23 @@
     "name": "StockUp",
     "displayName": "StockUp",
     "slug": "stockup",
+    "icon": "./assets/images/icon.png",
+    "orientation": "portrait",
     "version": "1.0.0",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "backgroundColor": "#204E4A"
+    },
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "resizeMode": "contain",
+        "backgroundColor": "white"
+      }
+    },
     "extra": {
       "eas": {
         "projectId": "5c572a31-799d-4a87-aa62-67b02805340a"
