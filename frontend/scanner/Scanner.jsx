@@ -172,7 +172,7 @@ export default function Scanner({ navigation }) {
 
         {modalVisable && <SafeAreaView style={styles.modalView}>
           <Text>Product has been added to your inventory</Text>
-          <Pressable style={styles.button} onPress={() => setModalVisable(false)}>
+          <Pressable style={styles.button2} onPress={() => setModalVisable(false)}>
             <Text style={styles.text}>OK</Text>
           </Pressable> 
         </SafeAreaView>}
@@ -191,10 +191,10 @@ export default function Scanner({ navigation }) {
                 maxLength={3}
                 onChangeText={text => setAmount(text)} 
             />
-            <Pressable style={styles.button} onPress={handleAddProduct}>
+            <Pressable style={styles.button2} onPress={handleAddProduct}>
               <Text style={styles.text}>Add to your inventory</Text>
             </Pressable>    
-            <Pressable style={styles.button} onPress={() => setScanned(false)}>
+            <Pressable style={styles.button2} onPress={() => setScanned(false)}>
               <Text style={styles.text}>Scan again</Text>
             </Pressable>
           </SafeAreaView>
@@ -223,10 +223,10 @@ export default function Scanner({ navigation }) {
               }} style={styles.input} value={tag} onChangeText={(productTag) => updateTag(productTag)}/>
             <SugestList data={filterTags} onPress={updateTag}/>
           </View>
-          <Pressable style={styles.button} onPress={handleCreateProduct}>
+          <Pressable style={styles.button2} onPress={handleCreateProduct}>
             <Text style={styles.text}>Create Product</Text>
           </Pressable>
-          <Pressable style={styles.button} onPress={() => setCreateProductVisable(false)}>  
+          <Pressable style={styles.button2} onPress={() => setCreateProductVisable(false)}>  
               <Text style={styles.text}>Scan again</Text>
           </Pressable>
         </SafeAreaView>}

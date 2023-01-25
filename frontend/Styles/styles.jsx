@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingVertical: 8,
         paddingHorizontal: 12,
-        width: 120,
+        width: 150,
         borderRadius: 4,
         elevation: 3,
         backgroundColor: '#4BC188',
@@ -32,6 +32,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         letterSpacing: 0.25,
         color: 'white',
+        alignSelf: 'stretch',
+        textAlign: 'center',
     },
     modalView: {
         margin: 20,
@@ -217,9 +219,10 @@ const styles = StyleSheet.create({
     logout: {
         position: 'absolute',
         top: 15,
-        right: 5,
+        right: 10,
         backgroundColor: '#204E4A',
         paddingHorizontal: 10,
+        width: 100,
         paddingVertical: 5,
         borderRadius: 4
     },
